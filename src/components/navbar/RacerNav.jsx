@@ -1,16 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
+/**
+ * Link에서 home화면을 "/"로 하면 bootstrap에서 active class가 안빠지게 된다.
+ * 그래서 "/home"으로 변경하여 사용한다.
+ */
 
 const RacerNav = () => {
   return (
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <LinkContainer to="/home">
+            <Navbar.Brand>RacerIn</Navbar.Brand>
+          </LinkContainer>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <LinkContainer to="/home">
+              <Nav.Link>Main</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/network">
+              <Nav.Link>Network</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/logout">
+              <Nav.Link>Logout</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Container>
       </Navbar>
