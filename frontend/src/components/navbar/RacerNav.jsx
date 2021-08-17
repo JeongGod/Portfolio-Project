@@ -23,8 +23,8 @@ const RacerNav = () => {
             <LinkContainer to="/network">
               <Nav.Link>Network</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/logout">
-              <Nav.Link>Logout</Nav.Link>
+            <LinkContainer to="/login">
+              <Nav.Link>Login</Nav.Link>
             </LinkContainer>
           </Nav>
         </Container>

@@ -6,6 +6,8 @@ import { BrowserRouter, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import "./App.css";
+import Login from "./components/Login";
+import SignUp from "./components/Signup";
 
 const AppWrapper = styled.div`
   background-color: darkgray;
@@ -18,6 +20,12 @@ function App() {
         <RacerNav />
         <Route exact path="/home">
           <MainPage />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
         </Route>
         <Route path="/network">
           <NetworkPage />

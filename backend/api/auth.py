@@ -1,8 +1,4 @@
-from flask import Flask
-from flask_restful import Api, Resource, reqparse
-from models.racers import racers
-from app import db
-
+from flask import Blueprint
 class Login(Resource):
     """로그인"""
     def get(self):
@@ -20,9 +16,11 @@ class SignUp(Resource):
         parser.add_argument('id', type=str)
         parser.add_argument('pw', type=str)
         parser.add_argument('name', type=str)
+        parser.add_argument('image', type=str)
+        parser.add_argument('introduce', type=str)
         args = parser.parse_args()
         
-        new_user = racers(args['id'], args['pw'], args['name'])
+        new_user = racers(args['id'], args['pw'], args['name'], args['image'], args['introduce'])
         db.session.add(new_user)
         db.session.commit()
         return {"new_user.id" : new_user.racer_id}
