@@ -1,3 +1,5 @@
+from flask_restful import Resource, reqparse
+
 class PortfolioUser(Resource):
     """해당 User의 Portfolio 데이터를 가져옵니다."""
     def get(self):

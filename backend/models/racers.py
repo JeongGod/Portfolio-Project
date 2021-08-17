@@ -1,4 +1,4 @@
-from app import db
+from db_connect import db
 
 class racers(db.Model):
     __tablename__ = 'racers'
@@ -11,7 +11,7 @@ class racers(db.Model):
     image       = db.Column(db.String(2048))
     introduce   = db.Column(db.String(255))
 
-    def __init__(self, racer_id, racer_pw, racer_name, image, introduce):
+    def __init__(self, racer_id, racer_pw, racer_name, image="", introduce=""):
         self.racer_id   = racer_id
         self.racer_pw   = racer_pw
         self.racer_name = racer_name
