@@ -2,14 +2,18 @@
 
 # dependencies
 node_modules
+<<<<<<< HEAD
 /.pnp
+=======
+.pnp
+>>>>>>> api
 .pnp.js
 
 # testing
-/coverage
+coverage
 
 # production
-/build
+build
 
 # misc
 .DS_Store
@@ -21,3 +25,8 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+backend/config.py
+__pycache__
+.vscode
+git-commit-template.txt
