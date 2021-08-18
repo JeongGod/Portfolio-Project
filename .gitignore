@@ -2,11 +2,7 @@
 
 # dependencies
 node_modules
-<<<<<<< HEAD
-/.pnp
-=======
 .pnp
->>>>>>> api
 .pnp.js
 
 # testing
