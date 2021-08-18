@@ -6,6 +6,7 @@ from flask_cors import CORS
 from db_connect import db
 import config
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -22,12 +23,12 @@ def create_app():
 
     from models import racers
 
-    ###### 현재 개발단계 추후에 삭제
-    app.secret_key = "test"
-    app.config['SESSION_TYPE'] = 'filesystem'
+    ### 추후 수정예정
     CORS(app)
-    ######
+    ###
     return app
+
+
 '''
 auth.py
 '''
