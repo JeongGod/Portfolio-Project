@@ -1,15 +1,20 @@
+from flask import session
 from service.auth_service import Auth
-from util.dto import racersDto
 from flask_restful import Resource, reqparse
 
 class Login(Resource):
     """로그인"""
-    def get(self):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id', type=str)
+        parser.add_argument('pw', type=str)
+        
+        return 
         pass
 
 class Logout(Resource):
     """로그아웃"""
-    def post(self):
+    def get(self):
         pass
 
 class SignUp(Resource):
@@ -23,5 +28,4 @@ class SignUp(Resource):
         parser.add_argument('introduce', type=str)
         args = parser.parse_args()
         
-        dto = racersDto(args['id'], args['pw'], args['name'], args['image'], args['introduce'])
-        return Auth.signup_user(dto)
+        return Auth.signup_user(args)

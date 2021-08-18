@@ -4,9 +4,9 @@ from db_connect import db
 class Auth:
 
     def signup_user(data):
-        new_racer = racers(data.racer_id, data.racer_pw, data.racer_name, data.image, data.introduce)
-        user = db.session.query(racers).filter(racers.racer_id == new_racer.racer_id)
+        user = db.session.query(racers).filter(racers.racer_id == data.id)
         if user is None:
+            new_racer = racers(data.id, data.pw, data.name, data.image, data.introduce)
             try:
                 db.session.add(new_racer)
                 db.session.commit()
