@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -8,8 +8,14 @@ const Login = () => {
     pw: "",
   });
 
-  const handlerSubmit = () => {
-  }
+  const handlerSubmit = async (e) => {
+    e.preventDefault();
+    let response = await axios.post("http://localhost:5000/login", {
+      id: info.id,
+      pw: info.pw,
+    });
+    console.log(response);
+  };
 
   return (
     <div>
@@ -20,14 +26,14 @@ const Login = () => {
           value={info.id}
           onChange={(e) => setInfo({ ...info, id: e.target.value })}
         />
-        <br/>
+        <br />
         <label name="pw">PW : </label>
         <input
-          type="text"
+          type="password"
           value={info.pw}
           onChange={(e) => setInfo({ ...info, pw: e.target.value })}
         />
-        <br/>
+        <br />
         <input type="submit" value="로그인" />
       </form>
       <Link to="/signup">

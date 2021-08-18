@@ -16,9 +16,10 @@ const SignUp = () => {
       pw: info.pw,
       name: info.name,
     });
-    if (response.data === "success") {
+    // 확인
+    if (response.data.result === "success") {
       alert("회원가입 성공");
-    } else if (response.data === "exist") {
+    } else if (response.data.result === "exist") {
       alert("이미 회원가입이 되어있는 ID입니다.");
     } else {
       alert("회원가입 실패");
