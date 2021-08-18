@@ -1,6 +1,6 @@
+from service.auth_service import Auth
+from util.dto import racersDto
 from flask_restful import Resource, reqparse
-from db_connect import db
-from models.racers import racers
 
 class Login(Resource):
     """로그인"""
@@ -23,7 +23,5 @@ class SignUp(Resource):
         parser.add_argument('introduce', type=str)
         args = parser.parse_args()
         
-        new_user = racers(args['id'], args['pw'], args['name'], args['image'], args['introduce'])
-        db.session.add(new_user)
-        db.session.commit()
-        return {"new_user.id" : "test"}
+        dto = racersDto(args['id'], args['pw'], args['name'], args['image'], args['introduce'])
+        return Auth.signup_user(dto)

@@ -1,4 +1,4 @@
-from api.auth import Login, Logout, SignUp
+from controller.auth import Login, Logout, SignUp
 from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
