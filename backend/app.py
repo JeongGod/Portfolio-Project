@@ -3,12 +3,16 @@ from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from db_connect import db
 import config
 
 
 def create_app():
     app = Flask(__name__)
+    
+    # JWT 설정
+    jwt = JWTManager(app)
 
     # API 설정
     api = Api(app)

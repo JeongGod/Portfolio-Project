@@ -19,3 +19,4 @@ class racers(db.Model):
     
     def setToken(self, token):
         self.token = token
+        db.session.commit()
