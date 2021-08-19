@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { loginApi } from "../../../api/AuthApi";
 
 const Login = () => {
+  const history = useHistory()
   const [info, setInfo] = useState({
     id: "",
     pw: "",
@@ -10,7 +11,7 @@ const Login = () => {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    loginApi(info);
+    loginApi(info, history);
   };
 
   return (

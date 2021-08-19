@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { signupApi } from "../../../api/AuthApi";
 
 const SignUp = () => {
+  const history = useHistory();
   const [info, setInfo] = useState({
     id: "",
     pw: "",
@@ -17,7 +19,7 @@ const SignUp = () => {
       setInfo({ ...info, pw: "", pw_check: "" });
       return;
     }
-    signupApi(info);
+    signupApi(info, history);
   };
 
   return (

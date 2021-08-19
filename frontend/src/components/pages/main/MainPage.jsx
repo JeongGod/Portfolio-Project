@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import Profile from "../../Introduce/Profile";
 import Introduce from "../../Introduce/Introduce";
+import { useHistory } from "react-router-dom";
 
 const MainWrapper = styled.div`
   width: 100vw;
@@ -19,6 +19,13 @@ const RightWrapper = styled.div`
 `;
 
 const MainPage = () => {
+  const accessToken = localStorage.getItem('access_token')
+  const history = useHistory();
+
+  if(accessToken === "null"){
+    history.replace('/login')
+  }
+
   return (
     <MainWrapper>
       <LeftWrapper>

@@ -30,7 +30,6 @@ function App() {
         <Route path="/network">
           <NetworkPage />
         </Route>
-        <Route path="/logout"></Route>
       </BrowserRouter>
     </AppWrapper>
   );
