@@ -21,29 +21,12 @@ def create_app():
     db.init_app(app)
     Migrate().init_app(app, db)
 
-    from models import racers
+    from models import racers, educations, awards, projects, certificates
 
     ### 추후 수정예정
     CORS(app)
     ###
     return app
-
-
-'''
-auth.py
-'''
-
-
-# API 설정
-
-
-'''
-portfolio.py
-'''
-
-
-# API 설정
-# api.add_resource(PortfolioUser, '/home')
 
 if __name__ == "__main__":
     create_app().run(debug=True)
