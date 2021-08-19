@@ -1,16 +1,11 @@
-from flask_restful import Resource, request
+from service.user_service import User
+from flask import request, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+user = Blueprint('user', __name__, url_prefix='/userinfo')
 
-class PortfolioUser(Resource):
-    """해당 User의 Portfolio 데이터를 가져옵니다."""
-    def get(self):
-        pass
-    
-    """해당 User의 새로운 경력을 생성합니다."""
-    def post(self):
-        pass
-
-    """해당 User의 Portfolio 데이터를 변경합니다."""
-    def put(self):
-        pass
+@user.route('/all', methods=['GET'])
+@jwt_required()
+def user_info():
+    info = get_jwt_identity()
+    return User.get_user_all(id=info)
