@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { loginApi } from "../../../api/AuthApi";
 
 const Login = () => {
+  const history = useHistory()
   const [info, setInfo] = useState({
     id: "",
     pw: "",
@@ -10,11 +11,7 @@ const Login = () => {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    let response = await axios.post("http://localhost:5000/login", {
-      id: info.id,
-      pw: info.pw,
-    });
-    console.log(response);
+    loginApi(info, history);
   };
 
   return (

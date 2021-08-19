@@ -1,30 +1,15 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useHistory } from "react-router-dom";
+import { signupApi } from "../../../api/AuthApi";
 
 const SignUp = () => {
+  const history = useHistory();
   const [info, setInfo] = useState({
     id: "",
     pw: "",
     pw_check: "",
     name: "",
   });
-
-  const signupAPi = async () => {
-    // 회원가입 API호출
-    let response = await axios.post("http://localhost:5000/signup", {
-      id: info.id,
-      pw: info.pw,
-      name: info.name,
-    });
-    // 확인
-    if (response.data.result === "success") {
-      alert("회원가입 성공");
-    } else if (response.data.result === "exist") {
-      alert("이미 회원가입이 되어있는 ID입니다.");
-    } else {
-      alert("회원가입 실패");
-    }
-  };
 
   const handlerSubmit = (e) => {
     e.preventDefault();
@@ -34,7 +19,7 @@ const SignUp = () => {
       setInfo({ ...info, pw: "", pw_check: "" });
       return;
     }
-    signupAPi();
+    signupApi(info, history);
   };
 
   return (
