@@ -1,5 +1,5 @@
 from service.auth_service import Auth
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, request
 from bcrypt import hashpw, gensalt
 
 
@@ -18,8 +18,11 @@ class Login(Resource):
 class Logout(Resource):
     """로그아웃"""
 
-    def get(self):
-        pass
+    def post(self):
+        data = request.headers.get('Authorization')
+        if data:
+            return Auth.logout_user(data)
+        
 
 
 class SignUp(Resource):
