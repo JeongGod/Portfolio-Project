@@ -34,3 +34,9 @@ class Auth:
                 db.session.rollback()
                 return jsonify(result="fail")
         return jsonify(result="exist")
+    
+    def logout_user(data):
+        user = db.session.query(racers).filter(racers.token == data).first()
+        if user:
+            user.setToken(None)
+        return jsonify(result="success")

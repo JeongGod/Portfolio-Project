@@ -1,4 +1,5 @@
-from controller.auth import Login, Logout, SignUp
+from controller.user_controller import PortfolioUser
+from controller.auth_controller import Login, Logout, SignUp
 from flask import Flask
 from flask_restful import Api
 from flask_migrate import Migrate
@@ -16,6 +17,7 @@ def create_app():
 
     # API 설정
     api = Api(app)
+    # 인증 API
     api.add_resource(Login, '/login')
     api.add_resource(Logout, '/logout')
     api.add_resource(SignUp, '/signup')
