@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Profile from "./Profile";
-import Introduce from "./Introduce/Introduce";
+import Profile from "../../Introduce/Profile";
+import Introduce from "../../Introduce/Introduce";
 
 const MainWrapper = styled.div`
   width: 100vw;
