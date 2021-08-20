@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { signupApi } from "../../../api/AuthApi";
+import { signupApi } from "../../../api/authApi";
 
 const SignUp = () => {
   const history = useHistory();

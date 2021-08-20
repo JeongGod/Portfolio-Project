@@ -1,11 +1,12 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
 
-export const userInfoApi = async (setInfo) => {
+export const userInfoApi = async (setInfo, access_token) => {
+  console.log(access_token);
   try {
     const response = await axios.get(`${API_BASE_URL}/user-info`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        Authorization: `Bearer ${access_token}`
       }
     });
     setInfo({

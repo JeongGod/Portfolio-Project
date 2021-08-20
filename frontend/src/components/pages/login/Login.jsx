@@ -1,17 +1,24 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { loginApi } from "../../../api/AuthApi";
+import { loginApi } from "../../../api/authApi";
+import { setToken } from "../../../reducers/token";
 
 const Login = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
   const [info, setInfo] = useState({
     id: "",
     pw: "",
   });
+  
+  const handleToken = (token) => {
+    dispatch(setToken(token));
+  }
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    loginApi(info, history);
+    loginApi(info, history, handleToken)
   };
 
   return (

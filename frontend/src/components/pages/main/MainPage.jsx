@@ -6,7 +6,8 @@ import Projects from "../../Introduce/Projects";
 import Certifications from "../../Introduce/Certifications";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { userInfoApi } from "../../../api/UserApi";
+import { useSelector } from "react-redux"
+import { userInfoApi } from "../../../api/userApi";
 
 const MainWrapper = styled.div`
   width: 100vw;
@@ -24,16 +25,15 @@ const RightWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const accessToken = localStorage.getItem("access_token");
+  const { accessToken } = useSelector(state => state.token)
   const history = useHistory();
   const [info, setInfo] = useState(null)
-  if (accessToken === "null") {
+  if (accessToken === undefined) {
     history.replace("/login");
   }
-
   useEffect(() => {
-    userInfoApi(setInfo);
-  }, [])
+    userInfoApi(setInfo, accessToken);
+  }, [accessToken])
   
   return (
     <MainWrapper>
