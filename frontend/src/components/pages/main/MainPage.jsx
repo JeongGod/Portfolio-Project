@@ -34,7 +34,7 @@ const MainPage = () => {
   useEffect(() => {
     userInfoApi(setInfo, accessToken);
   }, [accessToken])
-  
+
   return (
     <MainWrapper>
       {info === null ? (

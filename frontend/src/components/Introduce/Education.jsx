@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { updateApi } from "../../api/userApi";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const IntroduceWrapper = styled.div`
@@ -23,6 +25,7 @@ const InputTag = ({ edu, index, update }) => {
         value={edu.school_name}
         onChange={(e) => update({ ...edu, school_name: e.target.value })}
       />
+      <br />
       <input
         key={`major${index}`}
         type="text"
@@ -30,6 +33,47 @@ const InputTag = ({ edu, index, update }) => {
         value={edu.major}
         onChange={(e) => update({ ...edu, major: e.target.value })}
       />
+      <br />
+      <label htmlFor="education">
+        <input
+          type="radio"
+          name="재학중"
+          value="재학중"
+          checked={edu.education === "재학중" ? true : false}
+          onChange={(e) => update({ ...edu, education: e.target.value})}
+        ></input>
+        재학중
+      </label>
+      <label htmlFor="education">
+        <input
+          type="radio"
+          name="학사졸업"
+          value="학사졸업"
+          checked={edu.education === "학사졸업" ? true : false}
+          onChange={(e) => update({ ...edu, education: e.target.value})}
+        ></input>
+        학사졸업
+      </label>
+      <label htmlFor="education">
+        <input
+          type="radio"
+          name="석사졸업"
+          value="석사졸업"
+          checked={edu.education === "석사졸업" ? true : false}
+          onChange={(e) => update({ ...edu, education: e.target.value})}
+        ></input>
+        석사졸업
+      </label>
+      <label htmlFor="education">
+        <input
+          type="radio"
+          name="박사졸업"
+          value="박사졸업"
+          checked={edu.education === "박사졸업" ? true : false}
+          onChange={(e) => update({ ...edu, education: e.target.value})}
+        ></input>
+        박사졸업
+      </label>
     </div>
   );
 };
@@ -38,6 +82,7 @@ const Education = ({data}) => {
   // useState대신 useRef를 사용해서 이벤트가 이루어졌을경우 값을 가져오는게 가능할까?
   const [edus, setEdus] = useState(data);
   const [edit, setEdit] = useState(false);
+  const { accessToken } = useSelector(state => state.token)
 
   // 정보 추가
   const handlerCreate = () => {
@@ -46,6 +91,7 @@ const Education = ({data}) => {
         edu_id : `create${edus.length}`,
         school_name: "",
         major: "",
+        education: ""
       })
     );
   };
@@ -62,6 +108,11 @@ const Education = ({data}) => {
     setEdus(target);
   };
 
+  const handlerSetEdit = () => {
+    setEdit((prev) => !prev);
+    updateApi("edus", edus, accessToken);
+  };
+
   return (
     <IntroduceWrapper>
       <h3>학력</h3>
@@ -72,7 +123,7 @@ const Education = ({data}) => {
           })}
 
           <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          <button onClick={() => handlerSetEdit()}>edit</button>
         </div>
       ) : (
         <div>
@@ -88,6 +139,9 @@ const Education = ({data}) => {
                   </p>
                   <p>
                     {edu.major}
+                  </p>
+                  <p>
+                    {edu.education}
                   </p>
                 </li>
               );

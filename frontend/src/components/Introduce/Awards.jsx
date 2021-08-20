@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { updateApi } from "../../api/userApi";
+import { useSelector } from "react-redux";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -34,15 +36,15 @@ const InputTag = ({ award, index, update }) => {
   );
 };
 
-const Awards = ({data}) => {
-  const [awards, setAwards] = useState(data)
+const Awards = ({ data }) => {
+  const [awards, setAwards] = useState(data);
   const [edit, setEdit] = useState(false);
-  
+  const { accessToken } = useSelector((state) => state.token);
 
   const handlerCreate = () => {
     setAwards(
       [...awards].concat({
-        award_id : `create${awards.length}`,
+        award_id: `create${awards.length}`,
         award_name: "",
         award_detail: "",
       })
@@ -52,13 +54,17 @@ const Awards = ({data}) => {
   const handlerSetAwards = (obj) => {
     const target = [...awards].map((award) => {
       if (award.award_id === obj.award_id) {
-        award = obj
+        award = obj;
       }
       return award;
     });
     setAwards(target);
   };
 
+  const handlerSetEdit = () => {
+    setEdit((prev) => !prev);
+    updateApi("awards", awards, accessToken);
+  };
 
   return (
     <IntroduceWrapper>
@@ -66,32 +72,29 @@ const Awards = ({data}) => {
       {edit === true ? (
         <div>
           {awards.map((award, index) => {
-            return <InputTag award={award} index={index} update={handlerSetAwards} />;
+            return (
+              <InputTag award={award} index={index} update={handlerSetAwards} />
+            );
           })}
 
           <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          <button onClick={() => handlerSetEdit()}>edit</button>
         </div>
       ) : (
         <div>
           <ul>
-          {awards.length === 0 ? (
-            <p>등록 내역이 없습니다.</p>
-          ) : (
-            
-            awards.map((award, index) => {
-              return (
+            {awards.length === 0 ? (
+              <p>등록 내역이 없습니다.</p>
+            ) : (
+              awards.map((award, index) => {
+                return (
                   <li key={index}>
-                    <p>
-                      {award.award_name}
-                    </p>
-                    <p>
-                      {award.award_detail}
-                    </p>
+                    <p>{award.award_name}</p>
+                    <p>{award.award_detail}</p>
                   </li>
-              );
-            })
-          )}
+                );
+              })
+            )}
           </ul>
           <button onClick={() => setEdit((prev) => !prev)}>edit</button>
         </div>

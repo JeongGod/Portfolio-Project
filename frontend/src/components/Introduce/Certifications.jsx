@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
-
+import { updateApi } from "../../api/userApi";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -39,6 +40,7 @@ const InputTag = ({ cert, index, update }) => {
 const Certifications = ({data}) => {
   const [certs, setCerts] = useState(data);
   const [edit, setEdit] = useState(false);
+  const { accessToken } = useSelector(state => state.token)
 
   const handlerCreate = () => {
     setCerts(
@@ -67,6 +69,11 @@ const Certifications = ({data}) => {
     }월 ${date.getDate()}일`;
   };
 
+  const handlerSetEdit = () => {
+    setEdit((prev) => !prev);
+    updateApi("certs", certs, accessToken);
+  };
+
   return (
     <IntroduceWrapper>
       <h3>자격증</h3>
@@ -76,7 +83,7 @@ const Certifications = ({data}) => {
             return <InputTag cert={cert} index={index} update={handlerSetCerts} />;
           })}
           <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          <button onClick={() => handlerSetEdit()}>edit</button>
         </div>
       ) : (
         <div>

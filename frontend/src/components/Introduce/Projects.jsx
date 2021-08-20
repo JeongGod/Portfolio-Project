@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
+import { updateApi } from "../../api/userApi";
+import { useSelector } from "react-redux";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -51,6 +53,7 @@ const InputTag = ({ project, index, update }) => {
 const Projectss = ({data}) => {
   const [projects, setProjects] = useState(data);
   const [edit, setEdit] = useState(false);
+  const { accessToken } = useSelector(state => state.token)
 
   const handlerCreate = () => {
     setProjects(
@@ -74,6 +77,11 @@ const Projectss = ({data}) => {
     setProjects(target);
   };
 
+  const handlerSetEdit = () => {
+    setEdit((prev) => !prev);
+    updateApi("projects", projects, accessToken);
+  };
+
   const handlerDate = (date) => {
     return `${date.getFullYear()}년 ${
       date.getMonth() + 1
@@ -88,7 +96,7 @@ const Projectss = ({data}) => {
             return <InputTag project={project} index={index} update={handlerSetProjects} />;
           })}
           <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          <button onClick={() => handlerSetEdit()}>edit</button>
         </div>
       ) : (
         <div>

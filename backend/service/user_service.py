@@ -30,22 +30,21 @@ class User:
     2. 해당 모델 객체를 생성한다.
     3. 만약 id값의 문자열이 str이라면 "새로 추가된 객체"로 여긴다.
     '''
-    def update_awards(user_id, data):
-        try :
-            awards_data = data.get('awards')
+    def update_profile(user_id, data):
+        try:
+            profile_data = data.get('profile')
+            racer = racers.query.filter_by(racer_id=user_id).first()
+            racer.introduce = profile_data.get('introduce')
+            racer.image = profile_data.get('image')
             
-            for award in awards_data:
-                new_award = awards(user_id, award['award_name'], award['award_detail'])
-                if type(award.get('award_id')) != str:
-                    new_award.award_id = award.get('award_id')
-                db.session.merge(new_award)
+            db.session.add(racer)
             db.session.commit()
             return jsonify(result="success")
         except Exception as e:
             db.session.rollback()
             print(e)
             return jsonify(result="fail")
-    
+
     def update_edus(user_id, data):
         try :
             edus_data = data.get('edus')
@@ -62,8 +61,25 @@ class User:
             print(e)
             return jsonify(result="fail")
 
+    def update_awards(user_id, data):
+        try :
+            awards_data = data.get('awards')
+            
+            for award in awards_data:
+                new_award = awards(user_id, award['award_name'], award['award_detail'])
+                if type(award.get('award_id')) != str:
+                    new_award.award_id = award.get('award_id')
+                db.session.merge(new_award)
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+    
     def update_projects(user_id, data):
         try :
+            print(data)
             projects_data = data.get('projects')
 
             for project in projects_data:

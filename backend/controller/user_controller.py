@@ -10,6 +10,14 @@ def user_info():
     id = get_jwt_identity()
     return User.get_user_all(id=id)
 
+@user.route('/profile', methods=['PATCH'])
+@jwt_required()
+def profile():
+    id = get_jwt_identity()
+    profile_data = request.json
+
+    return User.update_profile(user_id=id, data=profile_data)
+
 # 전체 객체를 가지고와 수정을 하기 때문에 put method로 처리한다.
 @user.route('/edus', methods=['PUT'])
 @jwt_required()
@@ -24,7 +32,7 @@ def edus():
 def awards():
     id = get_jwt_identity()
     awards_data = request.json
-
+    print(awards_data)
     return User.update_awards(user_id=id, data=awards_data)
 
 @user.route('/projects', methods=['PUT'])

@@ -10,7 +10,6 @@ class racers(db.Model):
     racer_name: str
     image: str
     introduce: str
-    token: str
 
     racer_id    = db.Column(db.String(20), primary_key=True, nullable=False)
     racer_pw    = db.Column(db.String(255), nullable=False)
