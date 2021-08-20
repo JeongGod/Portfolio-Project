@@ -11,7 +11,7 @@ import { logoutApi } from "../../api/AuthApi";
 
 const RacerNav = () => {
   const [login, setLogin] = useState(localStorage.getItem("access_token"));
-
+  console.log(login)
   return (
     <>
       <Navbar bg="dark" variant="dark">

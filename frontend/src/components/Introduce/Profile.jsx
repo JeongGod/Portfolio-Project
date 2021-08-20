@@ -15,16 +15,16 @@ const ProfileWrapper = styled.div`
     height: 90px;
   }
 `;
-
-const Profile = () => {
+const Profile = ({data}) => {
   return (
     <ProfileWrapper>
-      <img
-        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-        alt="Profile Image"
-      />
-      <p>name</p>
-      <p>introduce</p>
+      {data.image === null ? (
+        <img src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt = "Profile Image"/>
+      ) : (
+        <img src = {data.img} alt = "Profile Image" />
+      )}
+      <p>{data.racer_name}</p>
+      <p>{data.introduce}</p>
       <button>Edit</button>
     </ProfileWrapper>
   );

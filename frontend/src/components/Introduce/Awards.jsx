@@ -9,41 +9,90 @@ const IntroduceWrapper = styled.div`
   border: 1px solid black;
 `;
 
-const Awards = () => {
-  const [awards, setAwards] = useState({
-    title: "",
-    desc: "",
-  });
+/**
+ * @param {school : 정보, update : 정보 업데이트 함수}
+ * @returns
+ */
+const InputTag = ({ award, index, update }) => {
+  return (
+    <div>
+      <input
+        key={`name${index}`}
+        type="text"
+        name="name"
+        value={award.award_name}
+        onChange={(e) => update({ ...award, award_name: e.target.value })}
+      />
+      <input
+        key={`detail${index}`}
+        type="text"
+        name="detail"
+        value={award.award_detail}
+        onChange={(e) => update({ ...award, award_detail: e.target.value })}
+      />
+    </div>
+  );
+};
+
+const Awards = ({data}) => {
+  const [awards, setAwards] = useState(data)
   const [edit, setEdit] = useState(false);
+  
+
+  const handlerCreate = () => {
+    setAwards(
+      [...awards].concat({
+        award_id : `create${awards.length}`,
+        award_name: "",
+        award_detail: "",
+      })
+    );
+  };
+
+  const handlerSetAwards = (obj) => {
+    const target = [...awards].map((award) => {
+      if (award.award_id === obj.award_id) {
+        award = obj
+      }
+      return award;
+    });
+    setAwards(target);
+  };
+
 
   return (
     <IntroduceWrapper>
       <h3>수상이력</h3>
       {edit === true ? (
         <div>
-          <input
-            type="text"
-            value={awards.title}
-            onChange={(e) => setAwards({ ...awards, title: e.target.value })}
-          />
-          <input
-            type="text"
-            value={awards.desc}
-            onChange={(e) => setAwards({ ...awards, desc: e.target.value })}
-          />
-          <button>추가</button>
+          {awards.map((award, index) => {
+            return <InputTag award={award} index={index} update={handlerSetAwards} />;
+          })}
+
+          <button onClick={() => handlerCreate()}>추가</button>
           <button onClick={() => setEdit((prev) => !prev)}>edit</button>
         </div>
       ) : (
         <div>
-          {awards.title === "" ? (
-            <p>수상 내역이 없습니다.</p>
+          <ul>
+          {awards.length === 0 ? (
+            <p>등록 내역이 없습니다.</p>
           ) : (
-            <>
-              <p>{awards.title}</p>
-              <p>{awards.desc}</p>
-            </>
+            
+            awards.map((award, index) => {
+              return (
+                  <li key={index}>
+                    <p>
+                      {award.award_name}
+                    </p>
+                    <p>
+                      {award.award_detail}
+                    </p>
+                  </li>
+              );
+            })
           )}
+          </ul>
           <button onClick={() => setEdit((prev) => !prev)}>edit</button>
         </div>
       )}

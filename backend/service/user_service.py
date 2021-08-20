@@ -16,6 +16,7 @@ class User:
             projects_data   = projects.query.filter_by(racer_id=user.racer_id).all()
             certs_data      = certificates.query.filter_by(racer_id=user.racer_id).all()
             return jsonify(
+                user            = user,
                 edus            = edus_data,
                 awards          = awards_data,
                 projects        = projects_data,
@@ -27,8 +28,7 @@ class User:
     '''
     1. 전체 객체를 받는다.
     2. 해당 모델 객체를 생성한다.
-    3. 만약 id값이 존재하는 객체라면, 
-        
+    3. 만약 id값의 문자열이 str이라면 "새로 추가된 객체"로 여긴다.
     '''
     def update_awards(user_id, data):
         try :
@@ -36,7 +36,8 @@ class User:
             
             for award in awards_data:
                 new_award = awards(user_id, award['award_name'], award['award_detail'])
-                new_award.award_id = award.get('award_id')
+                if type(award.get('award_id')) != str:
+                    new_award.award_id = award.get('award_id')
                 db.session.merge(new_award)
             db.session.commit()
             return jsonify(result="success")
@@ -51,7 +52,8 @@ class User:
 
             for edu in edus_data:
                 new_edu = educations(user_id, edu['school_name'], edu['major'], edu['education'])
-                new_edu.edu_id = edu.get('edu_id')
+                if type(edu.get('edu_id')) != str:
+                    new_edu.edu_id = edu.get('edu_id')
                 db.session.merge(new_edu)
             db.session.commit()
             return jsonify(result="success")
@@ -66,7 +68,8 @@ class User:
 
             for project in projects_data:
                 new_project = projects(user_id, project['project_name'], project['project_detail'], project['project_start_date'], project['project_end_date'])
-                new_project.project_id = project.get('project_id')
+                if type(project.get('project_id')) != str:
+                    new_project.project_id = project.get('project_id')
                 db.session.merge(new_project)
             db.session.commit()
             return jsonify(result="success")
@@ -81,7 +84,8 @@ class User:
 
             for cert in certs_data:
                 new_cert = certificates(user_id, cert['cert_name'], cert['cert_detail'], cert['cert_achieve_date'])
-                new_cert.cert_id = cert.get('cert_id')
+                if type(cert.get('cert_id')) != str:
+                    new_cert.cert_id = cert.get('cert_id')
                 db.session.merge(new_cert)
             db.session.commit()
             return jsonify(result="success")
