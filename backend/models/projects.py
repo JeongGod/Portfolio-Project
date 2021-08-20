@@ -13,7 +13,7 @@ class projects(db.Model):
     project_end_date: str
 
     project_id          = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    racer_id            = db.Column(db.Integer, db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    racer_id            = db.Column(db.String(20), db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     project_name        = db.Column(db.String(20))
     project_detail      = db.Column(db.String(255))
     project_start_date  = db.Column(db.DateTime)

@@ -11,7 +11,7 @@ class awards(db.Model):
     award_detail: str
 
     award_id        = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    racer_id        = db.Column(db.Integer, db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    racer_id        = db.Column(db.String(20), db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     award_name      = db.Column(db.String(20))
     award_detail    = db.Column(db.String(255))
     

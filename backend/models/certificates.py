@@ -12,7 +12,7 @@ class certificates(db.Model):
     cert_achieve_date: str
 
     cert_id             = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    racer_id            = db.Column(db.Integer, db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    racer_id            = db.Column(db.String(20), db.ForeignKey('racers.racer_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
     cert_name           = db.Column(db.String(20))
     cert_detail         = db.Column(db.String(255))
     cert_achieve_date   = db.Column(db.DateTime)
