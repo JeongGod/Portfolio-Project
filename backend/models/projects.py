@@ -19,8 +19,9 @@ class projects(db.Model):
     project_start_date  = db.Column(db.DateTime)
     project_end_date    = db.Column(db.DateTime)
 
-    def __init__(self, project_name, project_detail, project_start_date, project_end_date):
-        self.project_name   = project_name
-        self.project_detail = project_detail
+    def __init__(self, racer_id, project_name, project_detail, project_start_date, project_end_date):
+        self.racer_id           = racer_id
+        self.project_name       = project_name
+        self.project_detail     = project_detail
         self.project_start_date = project_start_date
-        self.project_end_date = project_end_date
+        self.project_end_date   = project_end_date

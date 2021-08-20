@@ -17,7 +17,8 @@ class certificates(db.Model):
     cert_detail         = db.Column(db.String(255))
     cert_achieve_date   = db.Column(db.DateTime)
 
-    def __init__(self, cert_name, cert_detail, cert_achieve_date):
-        self.cert_name   = cert_name
-        self.cert_detail = cert_detail
-        self.cert_achieve_date = cert_achieve_date
+    def __init__(self, racer_id, cert_name, cert_detail, cert_achieve_date):
+        self.racer_id           = racer_id
+        self.cert_name          = cert_name
+        self.cert_detail        = cert_detail
+        self.cert_achieve_date  = cert_achieve_date

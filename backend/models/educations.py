@@ -17,8 +17,9 @@ class educations(db.Model):
     major       = db.Column(db.String(20))
     education   = db.Column(db.String(10))
 
-    def __init__(self, school_name, major, education):
-        self.school_name   = school_name
-        self.major = major
-        self.education = education
+    def __init__(self, racer_id, school_name, major, education):
+        self.racer_id       = racer_id
+        self.school_name    = school_name
+        self.major          = major
+        self.education      = education
         

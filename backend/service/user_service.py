@@ -17,7 +17,7 @@ class User:
             certs_data      = certificates.query.filter_by(racer_id=user.racer_id).all()
             return jsonify(
                 edus            = edus_data,
-                award           = awards_data,
+                awards          = awards_data,
                 projects        = projects_data,
                 certificates    = certs_data
                 )
@@ -26,15 +26,66 @@ class User:
             return jsonify(result="fail")
     '''
     1. 전체 객체를 받는다.
-    2. 전체 객체의 아이디를 하나씩 돌아보면서 디비에 있는지 확인한다.
-        3-1. 있다면, 해당 객체를 업데이트한다.
-        3-2. 없다면, 해당 객체를 새로 만들어 업데이트한다.
+    2. 해당 모델 객체를 생성한다.
+    3. 만약 id값이 존재하는 객체라면, 
+        
     '''
-    def update_edu(id, data):
+    def update_awards(user_id, data):
         try :
-            edus_data = data.get('edu')
-            print(edus_data)
-
+            awards_data = data.get('awards')
+            
+            for award in awards_data:
+                new_award = awards(user_id, award['award_name'], award['award_detail'])
+                new_award.award_id = award.get('award_id')
+                db.session.merge(new_award)
+            db.session.commit()
+            return jsonify(result="success")
         except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+    
+    def update_edus(user_id, data):
+        try :
+            edus_data = data.get('edus')
+
+            for edu in edus_data:
+                new_edu = educations(user_id, edu['school_name'], edu['major'], edu['education'])
+                new_edu.edu_id = edu.get('edu_id')
+                db.session.merge(new_edu)
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+
+    def update_projects(user_id, data):
+        try :
+            projects_data = data.get('projects')
+
+            for project in projects_data:
+                new_project = projects(user_id, project['project_name'], project['project_detail'], project['project_start_date'], project['project_end_date'])
+                new_project.project_id = project.get('project_id')
+                db.session.merge(new_project)
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+    
+    def update_certs(user_id, data):
+        try :
+            certs_data = data.get('certs')
+
+            for cert in certs_data:
+                new_cert = certificates(user_id, cert['cert_name'], cert['cert_detail'], cert['cert_achieve_date'])
+                new_cert.cert_id = cert.get('cert_id')
+                db.session.merge(new_cert)
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
             print(e)
             return jsonify(result="fail")

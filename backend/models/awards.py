@@ -15,6 +15,7 @@ class awards(db.Model):
     award_name      = db.Column(db.String(20))
     award_detail    = db.Column(db.String(255))
     
-    def __init__(self, award_name, award_detail):
+    def __init__(self, racer_id, award_name, award_detail):
+        self.racer_id     = racer_id
         self.award_name   = award_name
         self.award_detail = award_detail
