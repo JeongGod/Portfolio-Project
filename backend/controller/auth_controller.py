@@ -1,43 +1,23 @@
 from service.auth_service import Auth
-from flask_restful import Resource, reqparse, request
+from flask import request, Blueprint
 from bcrypt import hashpw, gensalt
 
+auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-class Login(Resource):
-    """로그인"""
+@auth.route('/login', methods=['POST'])
+def login():
+    info = request.json
+    return Auth.login_user(data=info)
 
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('id', type=str)
-        parser.add_argument('pw', type=str)
-        args = parser.parse_args()
+@auth.route('/logout', methods=['POST'])
+def logout():
+    auth_header = request.headers.get('Authorization')
+    return Auth.logout_user(data=auth_header)
 
-        return Auth.login_user(args)
-
-
-class Logout(Resource):
-    """로그아웃"""
-
-    def post(self):
-        data = request.headers.get('Authorization')
-        if data:
-            return Auth.logout_user(data)
-        
-
-
-class SignUp(Resource):
-    """회원가입"""
-
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('id', type=str)
-        parser.add_argument('pw', type=str)
-        parser.add_argument('name', type=str)
-        parser.add_argument('image', type=str)
-        parser.add_argument('introduce', type=str)
-        args = parser.parse_args()
-        # 암호화
-        args['pw'] = hashpw(args['pw'].encode('utf-8'),
-                            gensalt()).decode('utf-8')
-
-        return Auth.signup_user(args)
+@auth.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    # 암호화
+    data['pw'] = hashpw(data['pw'].encode('utf-8'),
+                        gensalt()).decode('utf-8')
+    return Auth.signup_user(data=data)
