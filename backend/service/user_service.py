@@ -112,3 +112,43 @@ class User:
             db.session.rollback()
             print(e)
             return jsonify(result="fail")
+
+    def delete_edu(data_id):
+        try:
+            educations.query.filter(educations.edu_id == data_id).delete()
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+    
+    def delete_award(data_id):
+        try:
+            awards.query.filter(awards.award_id == data_id).delete()
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+
+    def delete_project(data_id):
+        try:
+            projects.query.filter(projects.project_id == data_id).delete()
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+
+    def delete_cert(data_id):
+        try:
+            certificates.query.filter(certificates.cert_id == data_id).delete()
+            db.session.commit()
+            return jsonify(result="success")
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
