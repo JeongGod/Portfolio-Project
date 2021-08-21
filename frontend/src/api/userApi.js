@@ -13,13 +13,21 @@ const config = (access_token) => ({
  * @param {current user id} access_token
  * @returns
  */
-export const userInfoApi = async (setInfo, access_token) => {
+export const userInfoApi = async (setInfo, access_token, id=null) => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/user-info`,
-      config(access_token)
-    );
-
+    let response
+    if(id === null) {
+      response = await axios.get(
+        `${API_BASE_URL}/user-info`,
+        config(access_token)
+      );
+      
+    } else {
+      response = await axios.get(
+        `${API_BASE_URL}/user-info/${id}`,
+        config(access_token)
+      );
+    }
     const projects_info = response.data.projects;
     projects_info.map(project => {
       project.project_start_date = new Date(project.project_start_date)
@@ -79,7 +87,7 @@ export const patchApi = async (data, access_token) => {
 };
 
 export const deleteApi = async (type, data, access_token) => {
-  console.log(typeof(type), typeof(data));
+  console.log(typeof(type),);
   try {
     const response = await axios.delete(
       `${API_BASE_URL}/user-info/${type}/${data}`,

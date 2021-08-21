@@ -8,7 +8,7 @@ from datetime import date
 from flask import jsonify
 
 class User:
-    def get_user_all(id):
+    def get_user_info(id):
         try :
             user = racers.query.filter_by(racer_id=id).first()
             edus_data       = educations.query.filter_by(racer_id=user.racer_id).all()
@@ -150,5 +150,13 @@ class User:
             return jsonify(result="success")
         except Exception as e:
             db.session.rollback()
+            print(e)
+            return jsonify(result="fail")
+
+    def get_other_users(id):
+        try:
+            other_users = racers.query.filter(racers.racer_id != id).all()
+            return jsonify(other_users=other_users)
+        except Exception as e:
             print(e)
             return jsonify(result="fail")

@@ -19,7 +19,7 @@ const ProfileWrapper = styled.div`
 `;
 
 
-const Profile = ({data}) => {
+const Profile = ({data, editAuth}) => {
   const { accessToken } = useSelector(state => state.token)
   const [profile, setProfile] = useState(data)
   const [edit, setEdit] = useState(false);
@@ -57,7 +57,9 @@ const Profile = ({data}) => {
       ) : (
         <div>
         <p>{profile.introduce}</p>
-        <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+        {editAuth && 
+          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+        }
         </div>
       )}
     </ProfileWrapper>

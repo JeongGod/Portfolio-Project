@@ -1,3 +1,4 @@
+import jwt
 from service.user_service import User
 from flask import request, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -8,7 +9,7 @@ user = Blueprint('user', __name__, url_prefix='/user-info')
 @jwt_required()
 def user_info():
     id = get_jwt_identity()
-    return User.get_user_all(id=id)
+    return User.get_user_info(id=id)
 
 @user.route('/profile', methods=['PATCH'])
 @jwt_required()
@@ -48,3 +49,14 @@ def delete_data(type, data_id):
     elif type == 'cert':
         return User.delete_cert(data_id=data_id)
     return "incorrect type"
+
+@user.route('/all', methods=['GET'])
+@jwt_required()
+def get_other_users():
+    id = get_jwt_identity()
+    return User.get_other_users(id)
+
+@user.route('/<string:racer_id>', methods=['GET'])
+@jwt_required()
+def get_search_user(racer_id):
+    return User.get_user_info(racer_id)

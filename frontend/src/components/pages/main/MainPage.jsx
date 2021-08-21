@@ -4,7 +4,7 @@ import Education from "../../Introduce/Education";
 import Awards from "../../Introduce/Awards";
 import Projects from "../../Introduce/Projects";
 import Certifications from "../../Introduce/Certifications";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import { userInfoApi } from "../../../api/userApi";
@@ -27,13 +27,21 @@ const RightWrapper = styled.div`
 const MainPage = () => {
   const { accessToken } = useSelector(state => state.token)
   const history = useHistory();
+  const location = useLocation();
+  let id = null;
+
   const [info, setInfo] = useState(null)
+  
   if (accessToken === undefined) {
     history.replace("/login");
   }
+
+  // url에 id가 있다면, network에서 온 것이다.
   useEffect(() => {
-    userInfoApi(setInfo, accessToken);
-  }, [accessToken])
+    const userParams = new URLSearchParams(location.search);
+    id = userParams.get('id');
+    id === null ? userInfoApi(setInfo, accessToken) : userInfoApi(setInfo, accessToken, id)
+  }, [])
 
   return (
     <MainWrapper>
@@ -42,14 +50,14 @@ const MainPage = () => {
       ) : (
         <>
         <LeftWrapper>
-          <Profile data={info.user_info}/>
+          <Profile data={info.user_info} editAuth={id === null ? false : true}/>
         </LeftWrapper>
 
         <RightWrapper>
-          <Education data={info.edus_info}/>
-          <Awards data={info.awards_info}/>
-          <Projects data={info.projects_info}/>
-          <Certifications data={info.certs_info}/>
+          <Education data={info.edus_info} editAuth={id === null ? false : true}/>
+          <Awards data={info.awards_info} editAuth={id === null ? false : true}/>
+          <Projects data={info.projects_info} editAuth={id === null ? false : true}/>
+          <Certifications data={info.certs_info} editAuth={id === null ? false : true}/>
         </RightWrapper>
         </>
       )}
