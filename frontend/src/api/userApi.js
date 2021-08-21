@@ -77,3 +77,15 @@ export const patchApi = async (data, access_token) => {
     console.log(error);
   }
 };
+
+export const deleteApi = async (type, data, access_token) => {
+  console.log(typeof(type), typeof(data));
+  try {
+    const response = await axios.delete(
+      `${API_BASE_URL}/user-info/${type}/${data}`,
+      config(access_token)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};

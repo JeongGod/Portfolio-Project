@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { updateApi } from "../../api/userApi";
+import { deleteApi, updateApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -15,7 +15,7 @@ const IntroduceWrapper = styled.div`
  * @param {school : 정보, update : 정보 업데이트 함수}
  * @returns
  */
-const InputTag = ({ edu, index, update }) => {
+const InputTag = ({ edu, index, update, remove }) => {
   return (
     <div>
       <input
@@ -74,6 +74,7 @@ const InputTag = ({ edu, index, update }) => {
         ></input>
         박사졸업
       </label>
+      <button onClick={() => remove(edu.edu_id)}>삭제</button>
     </div>
   );
 };
@@ -95,6 +96,13 @@ const Education = ({data}) => {
       })
     );
   };
+
+  const handlerDelete = (targetID) => {
+    setEdus(
+      [...edus].filter((edu) => edu.edu_id !== targetID)
+    )
+    deleteApi("edu", targetID, accessToken)
+  }
 
   // InputTag 컴포넌트에서 바꾼 객체를 이 함수의 인자로 가지고 온다.
   // 가지고 온 객체를 현재 state에서 교체한다.
@@ -119,7 +127,7 @@ const Education = ({data}) => {
       {edit === true ? (
         <div>
           {edus.map((edu, index) => {
-            return <InputTag edu={edu} index={index} update={handlerSetEdus} />;
+            return <InputTag edu={edu} index={index} update={handlerSetEdus} remove={handlerDelete}/>;
           })}
 
           <button onClick={() => handlerCreate()}>추가</button>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
-import { updateApi } from "../../api/userApi";
+import { updateApi, deleteApi } from "../../api/userApi";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector } from "react-redux";
 
@@ -13,7 +13,7 @@ const IntroduceWrapper = styled.div`
   border: 1px solid black;
 `;
 
-const InputTag = ({ cert, index, update }) => {
+const InputTag = ({ cert, index, update, remove }) => {
   return (
     <div>
       <input
@@ -33,6 +33,7 @@ const InputTag = ({ cert, index, update }) => {
         selected={cert.cert_achieve_date}
         onChange={(date) => update({ ...cert, cert_achieve_date: date })}
       />
+      <button onClick={() => remove(cert.cert_id)}>삭제</button>
     </div>
   );
 };
@@ -52,6 +53,13 @@ const Certifications = ({data}) => {
       })
     );
   };
+
+  const handlerDelete = (targetID) => {
+    setCerts(
+      [...certs].filter((cert) => cert.cert_id !== targetID)
+    )
+    deleteApi("cert", targetID, accessToken)
+  }
 
   const handlerSetCerts = (obj) => {
     const target = [...certs].map((cert) => {
@@ -80,7 +88,7 @@ const Certifications = ({data}) => {
       {edit === true ? (
         <div>
           {certs.map((cert, index) => {
-            return <InputTag cert={cert} index={index} update={handlerSetCerts} />;
+            return <InputTag cert={cert} index={index} update={handlerSetCerts} remove={handlerDelete} />;
           })}
           <button onClick={() => handlerCreate()}>추가</button>
           <button onClick={() => handlerSetEdit()}>edit</button>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
-import { updateApi } from "../../api/userApi";
+import { updateApi, deleteApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,7 +14,7 @@ const IntroduceWrapper = styled.div`
   border: 1px solid black;
 `;
 
-const InputTag = ({ project, index, update }) => {
+const InputTag = ({ project, index, update, remove }) => {
   return (
     <div>
       <input
@@ -46,6 +46,7 @@ const InputTag = ({ project, index, update }) => {
         endDate={project.project_end_date}
         minDate={project.project_start_date}
       />
+      <button onClick={() => remove(project.project_id)}>삭제</button>
     </div>
   );
 };
@@ -66,6 +67,13 @@ const Projectss = ({data}) => {
       })
     );
   };
+
+  const handlerDelete = (targetID) => {
+    setProjects(
+      [...projects].filter((project) => project.project_id !== targetID)
+    )
+    deleteApi("project", targetID, accessToken)
+  }
 
   const handlerSetProjects = (obj) => {
     const target = [...projects].map((project) => {
@@ -93,7 +101,7 @@ const Projectss = ({data}) => {
       {edit === true ? (
         <div>
           {projects.map((project, index) => {
-            return <InputTag project={project} index={index} update={handlerSetProjects} />;
+            return <InputTag project={project} index={index} update={handlerSetProjects} remove={handlerDelete} />;
           })}
           <button onClick={() => handlerCreate()}>추가</button>
           <button onClick={() => handlerSetEdit()}>edit</button>

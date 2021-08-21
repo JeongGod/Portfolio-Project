@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { updateApi } from "../../api/userApi";
+import { updateApi, deleteApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
 
 const IntroduceWrapper = styled.div`
@@ -15,7 +15,7 @@ const IntroduceWrapper = styled.div`
  * @param {school : 정보, update : 정보 업데이트 함수}
  * @returns
  */
-const InputTag = ({ award, index, update }) => {
+const InputTag = ({ award, index, update, remove }) => {
   return (
     <div>
       <input
@@ -32,6 +32,7 @@ const InputTag = ({ award, index, update }) => {
         value={award.award_detail}
         onChange={(e) => update({ ...award, award_detail: e.target.value })}
       />
+      <button onClick={() => remove(award.award_id)}>삭제</button>
     </div>
   );
 };
@@ -50,6 +51,13 @@ const Awards = ({ data }) => {
       })
     );
   };
+
+  const handlerDelete = (targetID) => {
+    setAwards(
+      [...awards].filter((award) => award.award_id !== targetID)
+    )
+    deleteApi("award", targetID, accessToken)
+  }
 
   const handlerSetAwards = (obj) => {
     const target = [...awards].map((award) => {
@@ -73,7 +81,7 @@ const Awards = ({ data }) => {
         <div>
           {awards.map((award, index) => {
             return (
-              <InputTag award={award} index={index} update={handlerSetAwards} />
+              <InputTag award={award} index={index} update={handlerSetAwards} remove={handlerDelete}/>
             );
           })}
 
