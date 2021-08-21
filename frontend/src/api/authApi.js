@@ -4,11 +4,7 @@ import { getCookie, setCookie } from "../utils/cookie";
 
 export const signupApi = async (info, history) => {
   // 회원가입 API호출
-  let response = await axios.post(`${API_BASE_URL}/auth/signup`, {
-    id: info.id,
-    pw: info.pw,
-    name: info.name,
-  });
+  let response = await axios.post(`${API_BASE_URL}/auth/signup`, info);
   // 확인
   if (response.data.result === "success") {
     history.replace("/login");
@@ -21,10 +17,7 @@ export const signupApi = async (info, history) => {
 };
 
 export const loginApi = async (info, history, handleToken) => {
-  let response = await axios.post(`${API_BASE_URL}/auth/login`, {
-    id: info.id,
-    pw: info.pw,
-  });
+  let response = await axios.post(`${API_BASE_URL}/auth/login`, info);
   // 해당 객체는 객체 형태
   console.log(response)
   if (response.data.result === "success") {
