@@ -2,43 +2,49 @@ from service.user_service import User
 from flask import request, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-user = Blueprint('user', __name__, url_prefix='/userinfo')
+user = Blueprint('user', __name__, url_prefix='/user-info')
 
-@user.route('/', methods=['GET'])
+@user.route('', methods=['GET'])
 @jwt_required()
 def user_info():
     id = get_jwt_identity()
     return User.get_user_all(id=id)
 
+@user.route('/profile', methods=['PATCH'])
+@jwt_required()
+def profile():
+    id = get_jwt_identity()
+    profile_data = request.json
+
+    return User.update_profile(user_id=id, data=profile_data)
+
 # 전체 객체를 가지고와 수정을 하기 때문에 put method로 처리한다.
-@user.route('/edus', methods=['PUT'])
+@user.route('/<string:type>', methods=['PUT'])
 @jwt_required()
-def edus():
+def edus(type):
     id = get_jwt_identity()
-    edus_data = request.json
+    data = request.json
+    if type == 'edus':
+        return User.update_edus(user_id=id, data=data)
+    elif type == 'awards':
+        return User.update_awards(user_id=id, data=data)
+    elif type == 'projects':
+        return User.update_projects(user_id=id, data=data)
+    elif type == 'certs':
+        return User.update_certs(user_id=id, data=data)
+    return "incorrect type"
 
-    return User.update_edus(user_id=id, data=edus_data)
-
-@user.route('/awards', methods=['PUT'])
+@user.route('/<string:type>/<int:data_id>', methods=['DELETE'])
 @jwt_required()
-def awards():
+def delete_data(type, data_id):
     id = get_jwt_identity()
-    awards_data = request.json
-
-    return User.update_awards(user_id=id, data=awards_data)
-
-@user.route('/projects', methods=['PUT'])
-@jwt_required()
-def projects():
-    id = get_jwt_identity()
-    projects_data = request.json
-
-    return User.update_projects(user_id=id, data=projects_data)
-
-@user.route('/certs', methods=['PUT'])
-@jwt_required()
-def certs():
-    id = get_jwt_identity()
-    certs_data = request.json
-
-    return User.update_certs(user_id=id, data=certs_data)
+    print(type, data_id)
+    if type == 'edu':
+        return User.delete_edu(data_id=data_id)
+    elif type == 'award':
+        return User.delete_award(data_id=data_id)
+    elif type == 'project':
+        return User.delete_project(data_id=data_id)
+    elif type == 'cert':
+        return User.delete_cert(data_id=data_id)
+    return "incorrect type"

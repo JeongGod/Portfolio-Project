@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import Profile from "../../Introduce/Profile";
-import Introduce from "../../Introduce/Introduce";
+import Education from "../../Introduce/Education";
+import Awards from "../../Introduce/Awards";
+import Projects from "../../Introduce/Projects";
+import Certifications from "../../Introduce/Certifications";
 import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux"
+import { userInfoApi } from "../../../api/userApi";
 
 const MainWrapper = styled.div`
   width: 100vw;
@@ -19,22 +25,34 @@ const RightWrapper = styled.div`
 `;
 
 const MainPage = () => {
-  const accessToken = localStorage.getItem('access_token')
+  const { accessToken } = useSelector(state => state.token)
   const history = useHistory();
-
-  if(accessToken === "null"){
-    history.replace('/login')
+  const [info, setInfo] = useState(null)
+  if (accessToken === undefined) {
+    history.replace("/login");
   }
+  useEffect(() => {
+    userInfoApi(setInfo, accessToken);
+  }, [accessToken])
 
   return (
     <MainWrapper>
-      <LeftWrapper>
-        <Profile />
-      </LeftWrapper>
+      {info === null ? (
+        <p>waiting</p>
+      ) : (
+        <>
+        <LeftWrapper>
+          <Profile data={info.user_info}/>
+        </LeftWrapper>
 
-      <RightWrapper>
-        <Introduce />
-      </RightWrapper>
+        <RightWrapper>
+          <Education data={info.edus_info}/>
+          <Awards data={info.awards_info}/>
+          <Projects data={info.projects_info}/>
+          <Certifications data={info.certs_info}/>
+        </RightWrapper>
+        </>
+      )}
     </MainWrapper>
   );
 };

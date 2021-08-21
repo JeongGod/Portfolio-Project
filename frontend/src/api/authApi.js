@@ -4,11 +4,7 @@ import { getCookie, setCookie } from "../utils/cookie";
 
 export const signupApi = async (info, history) => {
   // 회원가입 API호출
-  let response = await axios.post(`${API_BASE_URL}/signup`, {
-    id: info.id,
-    pw: info.pw,
-    name: info.name,
-  });
+  let response = await axios.post(`${API_BASE_URL}/auth/signup`, info);
   // 확인
   if (response.data.result === "success") {
     history.replace("/login");
@@ -20,13 +16,12 @@ export const signupApi = async (info, history) => {
   }
 };
 
-export const loginApi = async (info, history) => {
-  let response = await axios.post(`${API_BASE_URL}/login`, {
-    id: info.id,
-    pw: info.pw,
-  });
+export const loginApi = async (info, history, handleToken) => {
+  let response = await axios.post(`${API_BASE_URL}/auth/login`, info);
+  // 해당 객체는 객체 형태
+  console.log(response)
   if (response.data.result === "success") {
-    localStorage.setItem("access_token", response.data.access_token);
+    handleToken(response.data.access_token)
     setCookie("refresh_token", response.data.refresh_token, {
       path: "/",
       secure: true,
@@ -40,14 +35,14 @@ export const loginApi = async (info, history) => {
   }
 };
 
-export const logoutApi = async () => {
-  let response = await axios.post(`${API_BASE_URL}/logout`, void 0, {
+export const logoutApi = async (deleteToken) => {
+  let response = await axios.post(`${API_BASE_URL}/auth/logout`, void 0, {
     headers: {
       "Content-Type": "application/json",
       // Bearer을 붙여야 하는 이유?
       Authorization: `${getCookie("refresh_token")}`,
     },
   });
-  localStorage.setItem("access_token", "null");
+  deleteToken();
   setCookie("refresh_token", null);
 };

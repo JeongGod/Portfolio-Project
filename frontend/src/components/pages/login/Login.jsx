@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { loginApi } from "../../../api/AuthApi";
+import { loginApi } from "../../../api/authApi";
+import { setToken } from "../../../reducers/token";
 
 const Login = () => {
   const history = useHistory()
-  const [info, setInfo] = useState({
-    id: "",
-    pw: "",
-  });
+  const dispatch = useDispatch()
+  const idRef = useRef();
+  const pwRef = useRef();
+  
+  const handleToken = (token) => {
+    dispatch(setToken(token));
+  }
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-    loginApi(info, history);
+    const info = {
+      id : idRef.current.value,
+      pw : pwRef.current.value
+    }
+    loginApi(info, history, handleToken)
   };
 
   return (
@@ -19,16 +28,14 @@ const Login = () => {
       <form onSubmit={handlerSubmit}>
         <label name="id">ID : </label>
         <input
+          ref={idRef}
           type="text"
-          value={info.id}
-          onChange={(e) => setInfo({ ...info, id: e.target.value })}
         />
         <br />
         <label name="pw">PW : </label>
         <input
+          ref={pwRef}
           type="password"
-          value={info.pw}
-          onChange={(e) => setInfo({ ...info, pw: e.target.value })}
         />
         <br />
         <input type="submit" value="로그인" />

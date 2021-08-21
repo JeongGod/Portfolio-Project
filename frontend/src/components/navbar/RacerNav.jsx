@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { logoutApi } from "../../api/AuthApi";
+import { logoutApi } from "../../api/authApi";
+import { initToken, setToken } from "../../reducers/token";
 
 /**
  * Link에서 home화면을 "/"로 하면 bootstrap에서 active class가 안빠지게 된다.
@@ -10,8 +12,12 @@ import { logoutApi } from "../../api/AuthApi";
  */
 
 const RacerNav = () => {
-  const [login, setLogin] = useState(localStorage.getItem("access_token"));
-
+  
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => state.token);
+  const deleteToken = () => {
+    dispatch(initToken());
+  }
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -26,15 +32,13 @@ const RacerNav = () => {
             <LinkContainer to="/network">
               <Nav.Link>Network</Nav.Link>
             </LinkContainer>
-            {login === "null" ? (
-              <LinkContainer to="/login">
+            <LinkContainer to="/login">
+            {accessToken === undefined ? (
                 <Nav.Link>Login</Nav.Link>
-              </LinkContainer>
             ) : (
-              <LinkContainer to="/logout">
-                <Nav.Link onClick={logoutApi}>Logaaout</Nav.Link>
-              </LinkContainer>
+                <Nav.Link onClick={() => logoutApi(deleteToken)}>Logout</Nav.Link>
             )}
+            </LinkContainer>
           </Nav>
         </Container>
       </Navbar>
