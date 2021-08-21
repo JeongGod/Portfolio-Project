@@ -83,10 +83,9 @@ const Projectss = ({data}) => {
   };
 
   const handlerDate = (date) => {
-    const dateObj = new Date(date)
-    return `${dateObj.getFullYear()}년 ${
-      dateObj.getMonth() + 1
-    }월 ${dateObj.getDate()}일`;
+    return `${date.getFullYear()}년 ${
+      date.getMonth() + 1
+    }월 ${date.getDate()}일`;
   };
   return (
     <IntroduceWrapper>
