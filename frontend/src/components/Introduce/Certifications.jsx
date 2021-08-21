@@ -38,7 +38,7 @@ const InputTag = ({ cert, index, update, remove }) => {
   );
 };
 
-const Certifications = ({data}) => {
+const Certifications = ({data, editAuth}) => {
   const [certs, setCerts] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector(state => state.token)
@@ -114,7 +114,9 @@ const Certifications = ({data}) => {
             })
           )}
           </ul>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          {editAuth && 
+            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          }
         </div>
       )}
     </IntroduceWrapper>

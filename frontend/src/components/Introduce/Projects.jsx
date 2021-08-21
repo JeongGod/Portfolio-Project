@@ -51,7 +51,7 @@ const InputTag = ({ project, index, update, remove }) => {
   );
 };
 
-const Projectss = ({data}) => {
+const Projectss = ({data, editAuth}) => {
   const [projects, setProjects] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector(state => state.token)
@@ -128,7 +128,9 @@ const Projectss = ({data}) => {
             })
           )}
           </ul>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          {editAuth && 
+            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          }
         </div>
       )}
     </IntroduceWrapper>

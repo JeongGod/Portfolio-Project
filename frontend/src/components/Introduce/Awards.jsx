@@ -37,7 +37,7 @@ const InputTag = ({ award, index, update, remove }) => {
   );
 };
 
-const Awards = ({ data }) => {
+const Awards = ({ data , editAuth }) => {
   const [awards, setAwards] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
@@ -104,7 +104,9 @@ const Awards = ({ data }) => {
               })
             )}
           </ul>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          {editAuth && 
+            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          }
         </div>
       )}
     </IntroduceWrapper>

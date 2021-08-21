@@ -79,7 +79,7 @@ const InputTag = ({ edu, index, update, remove }) => {
   );
 };
 
-const Education = ({data}) => {
+const Education = ({data, editAuth}) => {
   // useState대신 useRef를 사용해서 이벤트가 이루어졌을경우 값을 가져오는게 가능할까?
   const [edus, setEdus] = useState(data);
   const [edit, setEdit] = useState(false);
@@ -156,7 +156,9 @@ const Education = ({data}) => {
             })
           )}
           </ul>
-          <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          {editAuth && 
+            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+          }
         </div>
       )}
     </IntroduceWrapper>
