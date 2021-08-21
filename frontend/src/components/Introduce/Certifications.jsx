@@ -64,9 +64,10 @@ const Certifications = ({data}) => {
   };
 
   const handlerDate = (date) => {
-    return `${date.getFullYear()}년 ${
-      date.getMonth() + 1
-    }월 ${date.getDate()}일`;
+    const dateObj = new Date(date)
+    return `${dateObj.getFullYear()}년 ${
+      dateObj.getMonth() + 1
+    }월 ${dateObj.getDate()}일`;
   };
 
   const handlerSetEdit = () => {
@@ -100,7 +101,7 @@ const Certifications = ({data}) => {
                   <p>
                     {cert.cert_detail}
                   </p>
-                  <p>{handlerDate(cert.achieve_date)} 취득</p>
+                  <p>{handlerDate(cert.cert_achieve_date)} 취득</p>
                 </li>
               );
             })
