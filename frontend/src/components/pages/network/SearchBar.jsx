@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SearchBar = ({ search }) => {
-
   return (
     <form>
       <label htmlFor="header-search">

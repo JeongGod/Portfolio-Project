@@ -1,36 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getUserAll } from "../../../api/searchApi";
-import SearchBar from "./SearchBar";
-import Users from "./Users";
+
+import SearchBar from "components/pages/network/SearchBar";
+import Users from "components/pages/network/Users";
+
+import { getUserAll } from "api/searchApi";
+import { useToken } from "components/CommonHook";
+
 const NetworkPage = () => {
   const { accessToken } = useSelector((state) => state.token);
-  const [datas, setDatas] = useState({
-    others : null,
-    searchUsers : null
+  const [users, setUsers] = useState({
+    others: null,
+    searchUsers: null,
   });
+  const tokenHandler = useToken();
 
   useEffect(() => {
-    getUserAll(setDatas, accessToken);
+    const handler = async () => {
+      const response = await getUserAll(accessToken);
+      // token이 만료되었는지 판단
+      tokenHandler(response);
+
+      const { other_users } = response.data;
+      setUsers({
+        others: other_users,
+        searchUsers: other_users,
+      });
+    };
+    handler();
   }, []);
 
   const handlerSearch = (e) => {
     const query = e.target.value;
     if (!query) {
-      setDatas({...datas, others:datas.searchUsers})
+      setUsers({ ...users, others: users.searchUsers });
       return;
     }
-    console.log(datas);
-    const filteredUsers = datas.searchUsers.filter(user => {
-      return user.racer_id.includes(query) || user.racer_name.includes(query)
+
+    const filteredUsers = users.searchUsers.filter((user) => {
+      return user.racer_id.includes(query) || user.racer_name.includes(query);
     });
-    setDatas({...datas, others: filteredUsers})
+    setUsers({ ...users, others: filteredUsers });
   };
 
   return (
     <div>
       <SearchBar search={handlerSearch} />
-      {datas.others === null ? <p>loading</p> : <Users others={datas.others} />}
+      {!users.others ? <p>loading</p> : <Users others={users.others} />}
     </div>
   );
 };

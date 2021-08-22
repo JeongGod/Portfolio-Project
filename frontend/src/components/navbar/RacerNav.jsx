@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { logoutApi } from "../../api/authApi";
-import { initToken, setToken } from "../../reducers/token";
+import { logoutApi } from "api/authApi";
+import { initToken } from "reducers/token";
 
 /**
  * Link에서 home화면을 "/"로 하면 bootstrap에서 active class가 안빠지게 된다.

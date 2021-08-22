@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
-import { updateApi, deleteApi } from "../../api/userApi";
-import { useSelector } from "react-redux";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useToken } from "../CommonHook";
+import { updateApi, deleteApi } from "api/userApi";
+import { useToken } from "components/CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -19,19 +19,19 @@ const InputTag = ({ project, index, update, remove }) => {
   return (
     <div>
       <input
-        key= {`name${index}`}
+        key={`name${index}`}
         type="text"
         value={project.project_name}
         onChange={(e) => update({ ...project, project_name: e.target.value })}
       />
       <input
-        key= {`detail${index}`}
+        key={`detail${index}`}
         type="text"
         value={project.project_detail}
         onChange={(e) => update({ ...project, project_detail: e.target.value })}
       />
       <DatePicker
-        key= {`start${index}`}
+        key={`start${index}`}
         selected={project.project_start_date}
         onChange={(date) => update({ ...project, project_start_date: date })}
         selectsStart
@@ -39,7 +39,7 @@ const InputTag = ({ project, index, update, remove }) => {
         endDate={project.project_end_date}
       />
       <DatePicker
-        key= {`end${index}`}
+        key={`end${index}`}
         selected={project.project_end_date}
         onChange={(date) => update({ ...project, project_end_date: date })}
         selectsEnd
@@ -52,20 +52,20 @@ const InputTag = ({ project, index, update, remove }) => {
   );
 };
 
-const Projectss = ({data, editAuth}) => {
+const Projectss = ({ data, editAuth }) => {
   const [projects, setProjects] = useState(data);
   const [edit, setEdit] = useState(false);
-  const { accessToken } = useSelector(state => state.token)
+  const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
 
   const handlerCreate = () => {
     setProjects(
       [...projects].concat({
-        project_id : `create${projects.length}`,
+        project_id: `create${projects.length}`,
         project_name: "",
         project_detail: "",
         project_start_date: new Date(),
-        project_end_date : new Date(),
+        project_end_date: new Date(),
       })
     );
   };
@@ -73,16 +73,16 @@ const Projectss = ({data, editAuth}) => {
   const handlerDelete = (targetID) => {
     setProjects(
       [...projects].filter((project) => project.project_id !== targetID)
-    )
-    deleteApi("project", targetID, accessToken).then(res => {
+    );
+    deleteApi("project", targetID, accessToken).then((res) => {
       tokenHandler();
-    })
-  }
+    });
+  };
 
   const handlerSetProjects = (obj) => {
     const target = [...projects].map((project) => {
       if (project.project_id === obj.project_id) {
-        project = obj
+        project = obj;
       }
       return project;
     });
@@ -91,8 +91,8 @@ const Projectss = ({data, editAuth}) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("projects", projects, accessToken).then(res => {
-      tokenHandler(res)
+    updateApi("projects", projects, accessToken).then((res) => {
+      tokenHandler(res);
     });
   };
 
@@ -104,10 +104,17 @@ const Projectss = ({data, editAuth}) => {
   return (
     <IntroduceWrapper>
       <h3>프로젝트</h3>
-      {edit === true ? (
+      {edit ? (
         <div>
           {projects.map((project, index) => {
-            return <InputTag project={project} index={index} update={handlerSetProjects} remove={handlerDelete} />;
+            return (
+              <InputTag
+                project={project}
+                index={index}
+                update={handlerSetProjects}
+                remove={handlerDelete}
+              />
+            );
           })}
           <button onClick={() => handlerCreate()}>추가</button>
           <button onClick={() => handlerSetEdit()}>edit</button>
@@ -115,28 +122,24 @@ const Projectss = ({data, editAuth}) => {
       ) : (
         <div>
           <ul>
-          {projects.length === 0 ? (
-            <p>등록 내역이 없습니다.</p>
-          ) : (
-            projects.map((project, index) => {
-              return (
-                <li key={index}>
-                  <p>
-                    {project.project_name}
-                  </p>
-                  <p>
-                    {project.project_detail}
-                  </p>
-                  <p>{handlerDate(project.project_start_date)}</p>
-                  <p>{handlerDate(project.project_end_date)}</p>
-                </li>
-              );
-            })
-          )}
+            {projects.length === 0 ? (
+              <p>등록 내역이 없습니다.</p>
+            ) : (
+              projects.map((project, index) => {
+                return (
+                  <li key={index}>
+                    <p>{project.project_name}</p>
+                    <p>{project.project_detail}</p>
+                    <p>{handlerDate(project.project_start_date)}</p>
+                    <p>{handlerDate(project.project_end_date)}</p>
+                  </li>
+                );
+              })
+            )}
           </ul>
-          {editAuth && 
+          {editAuth && (
             <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          }
+          )}
         </div>
       )}
     </IntroduceWrapper>

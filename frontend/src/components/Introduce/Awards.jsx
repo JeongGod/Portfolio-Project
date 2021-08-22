@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { updateApi, deleteApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
-import { useToken } from "../CommonHook";
+import styled from "styled-components";
+
+import { updateApi, deleteApi } from "api/userApi";
+import { useToken } from "components/CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -38,7 +39,7 @@ const InputTag = ({ award, index, update, remove }) => {
   );
 };
 
-const Awards = ({ data , editAuth }) => {
+const Awards = ({ data, editAuth }) => {
   const [awards, setAwards] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
@@ -55,13 +56,11 @@ const Awards = ({ data , editAuth }) => {
   };
 
   const handlerDelete = (targetID) => {
-    setAwards(
-      [...awards].filter((award) => award.award_id !== targetID)
-    )
-    deleteApi("award", targetID, accessToken).then(res => {
-      tokenHandler(res)
-    })
-  }
+    setAwards([...awards].filter((award) => award.award_id !== targetID));
+    deleteApi("award", targetID, accessToken).then((res) => {
+      tokenHandler(res);
+    });
+  };
 
   const handlerSetAwards = (obj) => {
     const target = [...awards].map((award) => {
@@ -75,22 +74,26 @@ const Awards = ({ data , editAuth }) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("awards", awards, accessToken).then(res => {
-      tokenHandler()
+    updateApi("awards", awards, accessToken).then((res) => {
+      tokenHandler(res);
     });
   };
 
   return (
     <IntroduceWrapper>
       <h3>수상이력</h3>
-      {edit === true ? (
+      {edit ? (
         <div>
           {awards.map((award, index) => {
             return (
-              <InputTag award={award} index={index} update={handlerSetAwards} remove={handlerDelete}/>
+              <InputTag
+                award={award}
+                index={index}
+                update={handlerSetAwards}
+                remove={handlerDelete}
+              />
             );
           })}
-
           <button onClick={() => handlerCreate()}>추가</button>
           <button onClick={() => handlerSetEdit()}>edit</button>
         </div>
@@ -110,9 +113,9 @@ const Awards = ({ data , editAuth }) => {
               })
             )}
           </ul>
-          {editAuth && 
+          {editAuth && (
             <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          }
+          )}
         </div>
       )}
     </IntroduceWrapper>

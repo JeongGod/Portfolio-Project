@@ -1,20 +1,21 @@
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
-
-const config = (access_token) => ({
-  headers: {
-    Authorization: `Bearer ${access_token}`,
-  },
-});
-
-export const getUserAll = async (setUsers, access_token) => {
-  const response = await axios.get(
-    `${API_BASE_URL}/user-info/all`,
-    config(access_token)
-  );
-  const datas = response.data.other_users
-  setUsers({
-    others : datas,
-    searchUsers : datas
-  });
+import { API_BASE_URL } from "constants/index";
+import { handlerError, config } from "api/commonHandler";
+/**
+ *
+ * @param {handler setState} setUsers
+ * @param {} access_token
+ * @returns
+ */
+export const getUserAll = async (access_token) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/user-info/all`,
+      config(access_token)
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    return handlerError(error);
+  }
 };

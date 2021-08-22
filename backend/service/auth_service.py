@@ -49,7 +49,7 @@ class Auth:
         user = racers.query.filter(racers.racer_id == identity).first()
         if user:
             access_token = create_access_token(identity=identity)
-            return jsonify(access_token=access_token)
+            return jsonify(access_token=access_token), 201
         return jsonify(result="fail")
     
     
