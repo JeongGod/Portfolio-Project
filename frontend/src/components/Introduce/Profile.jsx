@@ -28,7 +28,7 @@ const Profile = ({data, editAuth}) => {
     setEdit((prev) => !prev);
     patchApi(profile, accessToken);
   };
-
+  console.log(editAuth);
   return (
     <ProfileWrapper>
       {profile.image === null ? (

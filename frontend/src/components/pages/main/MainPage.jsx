@@ -28,18 +28,17 @@ const MainPage = () => {
   const { accessToken } = useSelector(state => state.token)
   const history = useHistory();
   const location = useLocation();
-  let id = null;
-
   const [info, setInfo] = useState(null)
+
+  const userParams = new URLSearchParams(location.search);
+  const id = userParams.get('id');
   
   if (accessToken === undefined) {
     history.replace("/login");
   }
-
+  
   // url에 id가 있다면, network에서 온 것이다.
   useEffect(() => {
-    const userParams = new URLSearchParams(location.search);
-    id = userParams.get('id');
     id === null ? userInfoApi(setInfo, accessToken) : userInfoApi(setInfo, accessToken, id)
   }, [])
 
@@ -50,14 +49,14 @@ const MainPage = () => {
       ) : (
         <>
         <LeftWrapper>
-          <Profile data={info.user_info} editAuth={id === null ? false : true}/>
+          <Profile data={info.user_info} editAuth={id === null ? true : false}/>
         </LeftWrapper>
 
         <RightWrapper>
-          <Education data={info.edus_info} editAuth={id === null ? false : true}/>
-          <Awards data={info.awards_info} editAuth={id === null ? false : true}/>
-          <Projects data={info.projects_info} editAuth={id === null ? false : true}/>
-          <Certifications data={info.certs_info} editAuth={id === null ? false : true}/>
+          <Education data={info.edus_info} editAuth={id === null ? true : false}/>
+          <Awards data={info.awards_info} editAuth={id === null ? true : false}/>
+          <Projects data={info.projects_info} editAuth={id === null ? true : false}/>
+          <Certifications data={info.certs_info} editAuth={id === null ? true : false}/>
         </RightWrapper>
         </>
       )}
