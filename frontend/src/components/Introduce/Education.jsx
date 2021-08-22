@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { deleteApi, updateApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { useToken } from "../CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -84,7 +85,7 @@ const Education = ({data, editAuth}) => {
   const [edus, setEdus] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector(state => state.token)
-
+  const tokenHandler = useToken();
   // 정보 추가
   const handlerCreate = () => {
     setEdus(
@@ -101,7 +102,9 @@ const Education = ({data, editAuth}) => {
     setEdus(
       [...edus].filter((edu) => edu.edu_id !== targetID)
     )
-    deleteApi("edu", targetID, accessToken)
+    deleteApi("edu", targetID, accessToken).then(res => {
+      tokenHandler(res)
+    })
   }
 
   // InputTag 컴포넌트에서 바꾼 객체를 이 함수의 인자로 가지고 온다.
@@ -118,7 +121,9 @@ const Education = ({data, editAuth}) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("edus", edus, accessToken);
+    updateApi("edus", edus, accessToken).then(res => {
+      tokenHandler(res)
+    });
   };
 
   return (

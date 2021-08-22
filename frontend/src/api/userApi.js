@@ -1,11 +1,26 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
+import { handlerExpiredToken } from "./tokenApi";
 
-const config = (access_token) => ({
+// header
+const config = (token) => ({
   headers: {
-    Authorization: `Bearer ${access_token}`,
+    Authorization: `Bearer ${token}`,
   },
 });
+
+const handlerError = async (error) => {
+  // Access Token이 만료되었다면
+  if (error.request.status === 401) {
+    const resToken = await handlerExpiredToken();
+    // Refresh Token이 만료되었다면
+    if (resToken.status == 401) {
+      return "expired";
+    }
+    return resToken;
+  }
+  return "error";
+}
 
 /**
  * get user info
@@ -21,7 +36,6 @@ export const userInfoApi = async (setInfo, access_token, id=null) => {
         `${API_BASE_URL}/user-info`,
         config(access_token)
       );
-      
     } else {
       response = await axios.get(
         `${API_BASE_URL}/user-info/${id}`,
@@ -43,11 +57,10 @@ export const userInfoApi = async (setInfo, access_token, id=null) => {
       projects_info: projects_info,
       certs_info: certs_info,
     });
-    return "true";
+    return response;
   } catch (error) {
-    console.log(error);
+    return handlerError(error);
   }
-  return;
 };
 
 const handlerDate = (date) => {
@@ -84,10 +97,6 @@ export const updateApi = async (type, datas, access_token) => {
       break;
     }
   }
-  console.log(data);
-
-  console.log(datas);
-  console.log(data);
 
   try {
     const response = await axios.put(
@@ -95,8 +104,9 @@ export const updateApi = async (type, datas, access_token) => {
       data,
       config(access_token)
     );
+    return response;
   } catch (error) {
-    console.log(error);
+    return handlerError(error);
   }
 };
 
@@ -112,8 +122,9 @@ export const patchApi = async (data, access_token) => {
       { profile: data },
       config(access_token)
     );
+    return response;
   } catch (error) {
-    console.log(error);
+    return handlerError(error);
   }
 };
 
@@ -124,7 +135,8 @@ export const deleteApi = async (type, data, access_token) => {
       `${API_BASE_URL}/user-info/${type}/${data}`,
       config(access_token)
     );
+    return response;
   } catch (error) {
-    console.log(error);
+    return handlerError(error);
   }
 };

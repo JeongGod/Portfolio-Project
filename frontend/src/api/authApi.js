@@ -24,6 +24,7 @@ export const loginApi = async (info, history, handleToken) => {
     handleToken(response.data.access_token)
     setCookie("refresh_token", response.data.refresh_token, {
       path: "/",
+      httpOnly: true,
       secure: true,
       sameSite: "none",
     });

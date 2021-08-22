@@ -44,5 +44,12 @@ class Auth:
                 db.session.rollback()
                 return jsonify(result="fail")
         return jsonify(result="exist")
+
+    def check_refresh_token(identity):
+        user = racers.query.filter(racers.racer_id == identity).first()
+        if user:
+            access_token = create_access_token(identity=identity)
+            return jsonify(access_token=access_token)
+        return jsonify(result="fail")
     
     

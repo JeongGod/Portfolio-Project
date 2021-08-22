@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { updateApi, deleteApi } from "../../api/userApi";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector } from "react-redux";
+import { useToken } from "../CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -42,6 +43,7 @@ const Certifications = ({data, editAuth}) => {
   const [certs, setCerts] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector(state => state.token)
+  const tokenHandler = useToken();
 
   const handlerCreate = () => {
     setCerts(
@@ -58,7 +60,9 @@ const Certifications = ({data, editAuth}) => {
     setCerts(
       [...certs].filter((cert) => cert.cert_id !== targetID)
     )
-    deleteApi("cert", targetID, accessToken)
+    deleteApi("cert", targetID, accessToken).then(res => {
+      tokenHandler(res)
+    })
   }
 
   const handlerSetCerts = (obj) => {
@@ -79,7 +83,9 @@ const Certifications = ({data, editAuth}) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("certs", certs, accessToken);
+    updateApi("certs", certs, accessToken).then(res => {
+      tokenHandler(res)
+    });
   };
 
   return (

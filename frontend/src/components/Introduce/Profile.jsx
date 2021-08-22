@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { patchApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
+import { useToken } from "../CommonHook";
 
 const ProfileWrapper = styled.div`
   position: sticky;
@@ -23,12 +24,15 @@ const Profile = ({data, editAuth}) => {
   const { accessToken } = useSelector(state => state.token)
   const [profile, setProfile] = useState(data)
   const [edit, setEdit] = useState(false);
+  const tokenHandler = useToken();
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    patchApi(profile, accessToken);
+    patchApi(profile, accessToken).then(res => {
+      tokenHandler(res)
+    });
   };
-  console.log(editAuth);
+
   return (
     <ProfileWrapper>
       {profile.image === null ? (

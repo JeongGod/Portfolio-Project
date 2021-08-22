@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { updateApi, deleteApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
+import { useToken } from "../CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -41,6 +42,7 @@ const Awards = ({ data , editAuth }) => {
   const [awards, setAwards] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
+  const tokenHandler = useToken();
 
   const handlerCreate = () => {
     setAwards(
@@ -56,7 +58,9 @@ const Awards = ({ data , editAuth }) => {
     setAwards(
       [...awards].filter((award) => award.award_id !== targetID)
     )
-    deleteApi("award", targetID, accessToken)
+    deleteApi("award", targetID, accessToken).then(res => {
+      tokenHandler(res)
+    })
   }
 
   const handlerSetAwards = (obj) => {
@@ -71,7 +75,9 @@ const Awards = ({ data , editAuth }) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("awards", awards, accessToken);
+    updateApi("awards", awards, accessToken).then(res => {
+      tokenHandler()
+    });
   };
 
   return (

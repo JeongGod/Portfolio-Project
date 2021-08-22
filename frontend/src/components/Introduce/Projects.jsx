@@ -5,6 +5,7 @@ import { updateApi, deleteApi } from "../../api/userApi";
 import { useSelector } from "react-redux";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useToken } from "../CommonHook";
 
 const IntroduceWrapper = styled.div`
   width: 60vw;
@@ -55,6 +56,7 @@ const Projectss = ({data, editAuth}) => {
   const [projects, setProjects] = useState(data);
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector(state => state.token)
+  const tokenHandler = useToken();
 
   const handlerCreate = () => {
     setProjects(
@@ -72,7 +74,9 @@ const Projectss = ({data, editAuth}) => {
     setProjects(
       [...projects].filter((project) => project.project_id !== targetID)
     )
-    deleteApi("project", targetID, accessToken)
+    deleteApi("project", targetID, accessToken).then(res => {
+      tokenHandler();
+    })
   }
 
   const handlerSetProjects = (obj) => {
@@ -87,7 +91,9 @@ const Projectss = ({data, editAuth}) => {
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
-    updateApi("projects", projects, accessToken);
+    updateApi("projects", projects, accessToken).then(res => {
+      tokenHandler(res)
+    });
   };
 
   const handlerDate = (date) => {
