@@ -80,11 +80,9 @@ class User:
     def update_projects(user_id, data):
         try :
             projects_data = data.get('projects')
-            for project in projects_data:
-                start = project['project_start_date']
-                end   = project['project_end_date']
 
-                new_project = projects(user_id, project['project_name'], project['project_detail'], date.fromisoformat(start[:start.index('T')]), date.fromisoformat(end[:end.index('T')]))
+            for project in projects_data:
+                new_project = projects(user_id, project['project_name'], project['project_detail'], project['project_start_date'], project['project_end_date'])
                 if type(project.get('project_id')) != str:
                     new_project.project_id = project.get('project_id')
                 db.session.merge(new_project)
@@ -100,9 +98,7 @@ class User:
             certs_data = data.get('certs')
 
             for cert in certs_data:
-                achieve = cert['cert_achieve_date']
-
-                new_cert = certificates(user_id, cert['cert_name'], cert['cert_detail'], date.fromisoformat(achieve[:achieve.index('T')]))
+                new_cert = certificates(user_id, cert['cert_name'], cert['cert_detail'], cert['cert_achieve_date'])
                 if type(cert.get('cert_id')) != str:
                     new_cert.cert_id = cert.get('cert_id')
                 db.session.merge(new_cert)

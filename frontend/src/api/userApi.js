@@ -49,6 +49,10 @@ export const userInfoApi = async (setInfo, access_token, id=null) => {
   }
   return;
 };
+
+const handlerDate = (date) => {
+  return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+}
 /**
  * update portfolio
  * @param {awards, edu, projects, certs} type
@@ -57,7 +61,34 @@ export const userInfoApi = async (setInfo, access_token, id=null) => {
  */
 export const updateApi = async (type, datas, access_token) => {
   const data = {};
-  data[type] = datas;
+  switch (type) {
+    case "projects":{
+      data[type] = datas.map(project => ({
+          ...project,
+          project_start_date : handlerDate(project.project_start_date),
+          project_end_date   : handlerDate(project.project_end_date)
+        })
+      );
+      break;
+    }
+    case "certs": {
+      data[type] = datas.map(cert => ({
+          ...cert,
+          cert_achieve_date : handlerDate(cert.cert_achieve_date),
+        })
+      );
+      break;
+    }
+    default : {
+      data[type] = datas
+      break;
+    }
+  }
+  console.log(data);
+
+  console.log(datas);
+  console.log(data);
+
   try {
     const response = await axios.put(
       `${API_BASE_URL}/user-info/${type}`,
