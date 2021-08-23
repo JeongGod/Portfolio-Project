@@ -10,7 +10,7 @@ import Login from "./components/pages/login/Login";
 import SignUp from "./components/pages/login/Signup";
 
 const AppWrapper = styled.div`
-  background-color: darkgray;
+
 `;
 
 function App() {
@@ -18,11 +18,11 @@ function App() {
     <AppWrapper>
       <BrowserRouter>
         <RacerNav />
-        <Route exact path="/home">
-          <MainPage />
-        </Route>
-        <Route path="/login">
+        <Route exact path="/">
           <Login />
+        </Route>
+        <Route path="/home">
+          <MainPage />
         </Route>
         <Route path="/signup">
           <SignUp />

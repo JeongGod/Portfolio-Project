@@ -35,18 +35,18 @@ def edus(type):
         return User.update_certs(user_id=id, data=data)
     return "incorrect type"
 
-@user.route('/<string:type>/<int:data_id>', methods=['DELETE'])
+@user.route('/<string:data_type>/<int:data_id>', methods=['DELETE'])
 @jwt_required()
-def delete_data(type, data_id):
+def delete_data(data_type, data_id):
     id = get_jwt_identity()
-    print(type, data_id)
-    if type == 'edu':
+    print(data_type, data_id)
+    if data_type == 'edu':
         return User.delete_edu(data_id=data_id)
-    elif type == 'award':
+    elif data_type == 'award':
         return User.delete_award(data_id=data_id)
-    elif type == 'project':
+    elif data_type == 'project':
         return User.delete_project(data_id=data_id)
-    elif type == 'cert':
+    elif data_type == 'cert':
         return User.delete_cert(data_id=data_id)
     return "incorrect type"
 

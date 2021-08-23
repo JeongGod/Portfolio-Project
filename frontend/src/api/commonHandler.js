@@ -1,4 +1,4 @@
-import { handlerExpiredToken } from "api/tokenApi";
+import { handlerExpiredToken } from "api/token";
 
 export const config = (access_token) => ({
   headers: {

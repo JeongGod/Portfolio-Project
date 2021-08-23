@@ -1,41 +1,57 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
-import styled from "styled-components";
 
+import "components/Introduce/index.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { updateApi, deleteApi } from "api/userApi";
-import { useToken } from "components/CommonHook";
 
-const IntroduceWrapper = styled.div`
-  width: 60vw;
-  min-height: 20vh;
-  margin-left: 50px;
-  margin-top: 100px;
-  border: 1px solid black;
-`;
+import { updateApi, deleteApi } from "api/user";
+import { useToken } from "components/CommonHook";
+import { Card, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { VscEdit } from "react-icons/vsc";
+import { CgAddR } from "react-icons/cg";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { FaRegCheckSquare } from "react-icons/fa";
 
 const InputTag = ({ cert, index, update, remove }) => {
   return (
     <div>
-      <input
-        key={`name${index}`}
-        type="text"
-        value={cert.cert_name}
-        onChange={(e) => update({ ...cert, cert_name: e.target.value })}
-      />
-      <input
-        key={`detail${index}`}
-        type="text"
-        value={cert.cert_detail}
-        onChange={(e) => update({ ...cert, cert_detail: e.target.value })}
-      />
-      <DatePicker
-        key={`date${index}`}
-        selected={cert.cert_achieve_date}
-        onChange={(date) => update({ ...cert, cert_achieve_date: date })}
-      />
-      <button onClick={() => remove(cert.cert_id)}>삭제</button>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
+        <FormControl
+          key={`name${index}`}
+          type="text"
+          value={cert.cert_name}
+          onChange={(e) => update({ ...cert, cert_name: e.target.value })}
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
+        <FormControl
+          key={`detail${index}`}
+          type="text"
+          value={cert.cert_detail}
+          onChange={(e) => update({ ...cert, cert_detail: e.target.value })}
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Achieve Date</InputGroup.Text>
+        <div style={{ flex: 1 }}>
+          <DatePicker
+            className="form-control"
+            key={`date${index}`}
+            selected={cert.cert_achieve_date}
+            onChange={(date) => update({ ...cert, cert_achieve_date: date })}
+          />
+        </div>
+      </InputGroup>
+      <div className="edit">
+        <h3>
+          <RiDeleteBin5Line onClick={() => remove(cert.cert_id)}>
+            삭제
+          </RiDeleteBin5Line>
+        </h3>
+      </div>
     </div>
   );
 };
@@ -88,46 +104,62 @@ const Certifications = ({ data, editAuth }) => {
   };
 
   return (
-    <IntroduceWrapper>
-      <h3>자격증</h3>
-      {edit ? (
-        <div>
-          {certs.map((cert, index) => {
-            return (
-              <InputTag
-                cert={cert}
-                index={index}
-                update={handlerSetCerts}
-                remove={handlerDelete}
-              />
-            );
-          })}
-          <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => handlerSetEdit()}>edit</button>
-        </div>
-      ) : (
-        <div>
-          <ul>
-            {certs.length === 0 ? (
-              <p>등록 내역이 없습니다.</p>
-            ) : (
-              certs.map((cert, index) => {
-                return (
-                  <li key={index}>
-                    <p>{cert.cert_name}</p>
-                    <p>{cert.cert_detail}</p>
-                    <p>{handlerDate(cert.cert_achieve_date)} 취득</p>
-                  </li>
-                );
-              })
+    <Card className="introduceWrapper">
+      <Card.Header>자격증</Card.Header>
+      <Card.Body>
+        {edit ? (
+          <ListGroup>
+            {certs.map((cert, index) => {
+              return (
+                <ListGroup.Item key={index}>
+                  <InputTag
+                    cert={cert}
+                    index={index}
+                    update={handlerSetCerts}
+                    remove={handlerDelete}
+                  />
+                </ListGroup.Item>
+              );
+            })}
+            <div className="edit">
+              <h3>
+                <CgAddR onClick={() => handlerCreate()}>추가</CgAddR>
+                <FaRegCheckSquare onClick={() => handlerSetEdit()}>
+                  완료
+                </FaRegCheckSquare>
+              </h3>
+            </div>
+          </ListGroup>
+        ) : (
+          <div>
+            <ListGroup>
+              {certs.length === 0 ? (
+                <Card.Title>등록 내역이 없습니다.</Card.Title>
+              ) : (
+                certs.map((cert, index) => {
+                  return (
+                    <ListGroup.Item className="liststyle" key={index}>
+                      <Card.Title>{cert.cert_name}</Card.Title>
+                      <Card.Text>{cert.cert_detail}</Card.Text>
+                      <Card.Text>
+                        {handlerDate(cert.cert_achieve_date)} 취득
+                      </Card.Text>
+                    </ListGroup.Item>
+                  );
+                })
+              )}
+            </ListGroup>
+            {editAuth && (
+              <div className="edit">
+                <h3>
+                  <VscEdit onClick={() => setEdit((prev) => !prev)}></VscEdit>
+                </h3>
+              </div>
             )}
-          </ul>
-          {editAuth && (
-            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          )}
-        </div>
-      )}
-    </IntroduceWrapper>
+          </div>
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 

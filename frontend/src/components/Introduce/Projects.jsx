@@ -1,44 +1,62 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
-import styled from "styled-components";
 
+import "components/Introduce/index.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { updateApi, deleteApi } from "api/userApi";
-import { useToken } from "components/CommonHook";
 
-const IntroduceWrapper = styled.div`
-  width: 60vw;
-  min-height: 20vh;
-  margin-left: 50px;
-  margin-top: 100px;
-  border: 1px solid black;
-`;
+import { updateApi, deleteApi } from "api/user";
+import { useToken } from "components/CommonHook";
+import { Card, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { VscEdit } from "react-icons/vsc";
+import { CgAddR } from "react-icons/cg";
+import { RiDeleteBin5Line } from 'react-icons/ri'
+import { FaRegCheckSquare } from 'react-icons/fa'
 
 const InputTag = ({ project, index, update, remove }) => {
   return (
     <div>
-      <input
-        key={`name${index}`}
-        type="text"
-        value={project.project_name}
-        onChange={(e) => update({ ...project, project_name: e.target.value })}
-      />
-      <input
-        key={`detail${index}`}
-        type="text"
-        value={project.project_detail}
-        onChange={(e) => update({ ...project, project_detail: e.target.value })}
-      />
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
+        <FormControl
+          key={`name${index}`}
+          type="text"
+          value={project.project_name}
+          onChange={(e) => update({ ...project, project_name: e.target.value })}
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
+        <FormControl
+          key={`detail${index}`}
+          type="text"
+          value={project.project_detail}
+          onChange={(e) =>
+            update({ ...project, project_detail: e.target.value })
+          }
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Start Date</InputGroup.Text>
+        <div style={{ flex: 1 }}>
+          <DatePicker
+            className="form-control"
+            key={`start${index}`}
+            selected={project.project_start_date}
+            onChange={(date) =>
+              update({ ...project, project_start_date: date })
+            }
+            selectsStart
+            startDate={project.project_start_date}
+            endDate={project.project_end_date}
+          />
+        </div>
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">End Date</InputGroup.Text>
+        <div style={{ flex: 1 }}>
       <DatePicker
-        key={`start${index}`}
-        selected={project.project_start_date}
-        onChange={(date) => update({ ...project, project_start_date: date })}
-        selectsStart
-        startDate={project.project_start_date}
-        endDate={project.project_end_date}
-      />
-      <DatePicker
+      className="form-control"
         key={`end${index}`}
         selected={project.project_end_date}
         onChange={(date) => update({ ...project, project_end_date: date })}
@@ -47,7 +65,13 @@ const InputTag = ({ project, index, update, remove }) => {
         endDate={project.project_end_date}
         minDate={project.project_start_date}
       />
-      <button onClick={() => remove(project.project_id)}>삭제</button>
+      </div>
+      </InputGroup>
+      <div className="edit">
+        <h3>
+          <RiDeleteBin5Line onClick={() => remove(project.project_id)}>삭제</RiDeleteBin5Line>
+        </h3>
+      </div>
     </div>
   );
 };
@@ -102,47 +126,60 @@ const Projectss = ({ data, editAuth }) => {
     }월 ${date.getDate()}일`;
   };
   return (
-    <IntroduceWrapper>
-      <h3>프로젝트</h3>
-      {edit ? (
-        <div>
-          {projects.map((project, index) => {
-            return (
-              <InputTag
-                project={project}
-                index={index}
-                update={handlerSetProjects}
-                remove={handlerDelete}
-              />
-            );
-          })}
-          <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => handlerSetEdit()}>edit</button>
-        </div>
-      ) : (
-        <div>
-          <ul>
-            {projects.length === 0 ? (
-              <p>등록 내역이 없습니다.</p>
-            ) : (
-              projects.map((project, index) => {
-                return (
-                  <li key={index}>
-                    <p>{project.project_name}</p>
-                    <p>{project.project_detail}</p>
-                    <p>{handlerDate(project.project_start_date)}</p>
-                    <p>{handlerDate(project.project_end_date)}</p>
-                  </li>
-                );
-              })
+    <Card className="introduceWrapper">
+      <Card.Header>프로젝트</Card.Header>
+      <Card.Body>
+        {edit ? (
+          <ListGroup>
+            {projects.map((project, index) => {
+              return (
+                <ListGroup.Item key={index}>
+                  <InputTag
+                    project={project}
+                    index={index}
+                    update={handlerSetProjects}
+                    remove={handlerDelete}
+                  />
+                </ListGroup.Item>
+              );
+            })}
+            <div className="edit">
+              <h3>
+                <CgAddR onClick={() => handlerCreate()}>추가</CgAddR>
+                <FaRegCheckSquare onClick={() => handlerSetEdit()}>완료</FaRegCheckSquare>
+              </h3>
+            </div>
+          </ListGroup>
+        ) : (
+          <div>
+            <ListGroup>
+              {projects.length === 0 ? (
+                <Card.Title>등록 내역이 없습니다.</Card.Title>
+              ) : (
+                projects.map((project, index) => {
+                  return (
+                    <ListGroup.Item key={index}>
+                      <Card.Title>{project.project_name}</Card.Title>
+                      <Card.Text>{project.project_detail}</Card.Text>
+                      <Card.Text>
+                        {handlerDate(project.project_start_date)} ~ {handlerDate(project.project_end_date)}
+                      </Card.Text>
+                    </ListGroup.Item>
+                  );
+                })
+              )}
+            </ListGroup>
+            {editAuth && (
+              <div className="edit">
+                <h3>
+                  <VscEdit onClick={() => setEdit((prev) => !prev)}>수정</VscEdit>
+                </h3>
+              </div>
             )}
-          </ul>
-          {editAuth && (
-            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          )}
-        </div>
-      )}
-    </IntroduceWrapper>
+          </div>
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 

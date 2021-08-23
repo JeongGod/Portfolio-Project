@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import SearchBar from "components/pages/network/SearchBar";
 import Users from "components/pages/network/Users";
 
-import { getUserAll } from "api/searchApi";
+import { getUserAll } from "api/search";
 import { useToken } from "components/CommonHook";
 
 const NetworkPage = () => {
@@ -19,7 +19,9 @@ const NetworkPage = () => {
     const handler = async () => {
       const response = await getUserAll(accessToken);
       // token이 만료되었는지 판단
-      tokenHandler(response);
+      if (tokenHandler(response) === "fail") {
+        return;
+      };
 
       const { other_users } = response.data;
       setUsers({
@@ -46,7 +48,9 @@ const NetworkPage = () => {
   return (
     <div>
       <SearchBar search={handlerSearch} />
-      {!users.others ? <p>loading</p> : <Users others={users.others} />}
+      {!users.others ? <p>loading</p> : (
+        <Users others={users.others} />
+      )}
     </div>
   );
 };

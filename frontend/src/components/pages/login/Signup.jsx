@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
 
-import { signupApi } from "api/authApi";
+import { signupApi } from "api/auth";
+import { Form, Button } from "react-bootstrap";
 
 const SignUp = () => {
   const history = useHistory();
@@ -37,21 +38,18 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => handlerSubmit(e)}>
-        <label name="id">아이디 : </label>
-        <input ref={idRef} type="text" />
-        <br />
-        <label name="pw">비밀번호 : </label>
-        <input ref={pwRef} type="password" />
-        <br />
-        <label name="pw_check">비밀번호 확인 : </label>
-        <input ref={pwCheckRef} type="password" />
-        <br />
-        <label name="name">이름 : </label>
-        <input ref={nameRef} type="text" />
-        <input type="submit" value="회원가입" />
-      </form>
+    <div className="wrapperForm">
+      <Form onSubmit={(e) => handlerSubmit(e)}>
+        <Form.Label name="id">아이디</Form.Label>
+        <Form.Control ref={idRef} type="text" placeholder="elice@elice.com"/>
+        <Form.Label name="pw">비밀번호</Form.Label>
+        <Form.Control ref={pwRef} type="password" />
+        <Form.Label name="pw_check">비밀번호 확인</Form.Label>
+        <Form.Control ref={pwCheckRef} type="password" />
+        <Form.Label name="name">이름</Form.Label>
+        <Form.Control ref={nameRef} type="text" />
+        <Button variant="info" type="submit" value="회원가입" >회원가입</Button>
+      </Form>
     </div>
   );
 };
