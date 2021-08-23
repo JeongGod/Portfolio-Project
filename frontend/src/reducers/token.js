@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, INITIAL_TOKEN } from "../constants";
+import { ACCESS_TOKEN, INITIAL_TOKEN } from "constants/index.js";
 
 export const setToken = (accessToken) => ({
   type: ACCESS_TOKEN,

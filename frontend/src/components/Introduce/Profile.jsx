@@ -1,30 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 
-import { patchApi } from "api/userApi";
+import "components/Introduce/index.css";
+
+import { patchApi } from "api/user";
 import { useToken } from "components/CommonHook";
-
-const ProfileWrapper = styled.div`
-  position: sticky;
-  text-align: center;
-  width: 300px;
-  height: 300px;
-  border: 1px solid black;
-  top: 200px;
-  left: 70px;
-
-  img {
-    width: 90px;
-    height: 90px;
-  }
-`;
+import { Card, FormControl, InputGroup } from "react-bootstrap";
+import { VscEdit } from 'react-icons/vsc'
+import { FaRegCheckSquare } from 'react-icons/fa'
 
 const Profile = ({ data, editAuth }) => {
   const { accessToken } = useSelector((state) => state.token);
-  const [profile, setProfile] = useState(data);
+  const [profile, setProfile] = useState();
   const [edit, setEdit] = useState(false);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setProfile(data)
+  }, [data])
 
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
@@ -34,39 +27,58 @@ const Profile = ({ data, editAuth }) => {
   };
 
   return (
-    <ProfileWrapper>
-      {!profile.image ? (
-        <img
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-          alt="Profile Image"
-        />
-      ) : (
-        <img src={profile.img} alt="Profile Image" />
-      )}
-      <p>{profile.racer_name}</p>
-      {edit ? (
-        <div>
-          <input
-            key={`detail`}
-            type="text"
-            name="detail"
-            value={profile.introduce}
-            onChange={(e) =>
-              setProfile({ ...profile, introduce: e.target.value })
-            }
+    <Card className="text-center profileWrapper">
+      {profile ? (
+        <>
+        {!profile.image ? (
+          <img
+            className="profileImage"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            alt="Profile Image"
           />
-          <br />
-          <button onClick={() => handlerSetEdit()}>edit</button>
-        </div>
+        ) : (
+          <img src={profile.img} alt="Profile Image" />
+        )}
+        <Card.Title>{profile.racer_name}</Card.Title>
+      {edit ? (
+        <>
+          <InputGroup className="mb-3">
+            <FormControl
+              key={`detail`}
+              type="text"
+              name="detail"
+              value={profile.introduce}
+              onChange={(e) =>
+                setProfile({ ...profile, introduce: e.target.value })
+              }
+            />
+          </InputGroup>
+          <div className="edit" style={{marginRight:"10px"}}>
+            <h3>
+              <FaRegCheckSquare onClick={() => handlerSetEdit()}>
+                완료
+              </FaRegCheckSquare>
+            </h3>
+          </div>
+        </>
       ) : (
+        
         <div>
-          <p>{profile.introduce}</p>
+          <Card.Text>{profile.introduce}</Card.Text>
           {editAuth && (
-            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+            <div className="edit" style={{marginRight:"10px"}}>
+              <h3>
+                <VscEdit onClick={() => setEdit((prev) => !prev)}>수정</VscEdit>
+              </h3>
+            </div>
           )}
         </div>
       )}
-    </ProfileWrapper>
+      </>
+      ) : (
+        <p>waiting..</p>
+      )}
+    </Card>
   );
 };
 

@@ -1,5 +1,5 @@
-from controller.user_controller import user
-from controller.auth_controller import auth
+from controller.user import user
+from controller.auth import auth
 from flask import Flask
 from flask_migrate import Migrate
 from flask_cors import CORS

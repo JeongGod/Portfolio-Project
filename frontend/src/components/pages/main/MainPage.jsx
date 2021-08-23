@@ -9,7 +9,7 @@ import Awards from "components/Introduce/Awards";
 import Projects from "components/Introduce/Projects";
 import Certifications from "components/Introduce/Certifications";
 
-import { userInfoApi } from "api/userApi";
+import { userInfoApi } from "api/user";
 import { useToken } from "components/CommonHook";
 
 const MainWrapper = styled.div`
@@ -24,6 +24,7 @@ const LeftWrapper = styled.div`
 const RightWrapper = styled.div`
   width: 70vw;
   height: 100vh;
+  display: table;
   float: right;
 `;
 
@@ -46,7 +47,9 @@ const MainPage = () => {
     const response = await userInfoApi(accessToken, id);
 
     // token이 만료되었던 친구인지 판단한다.
-    tokenHandler(response);
+    if (tokenHandler(response) === "fail") {
+      return;
+    };
 
     const { user, edus, awards, projects, certificates: certs } = response.data;
 
@@ -60,7 +63,6 @@ const MainPage = () => {
       ...cert,
       cert_achieve_date: new Date(cert.cert_achieve_date),
     }));
-
     setInfo({
       user_info: user,
       edus_info: edus,
@@ -72,7 +74,7 @@ const MainPage = () => {
 
   useEffect(() => {
     handlerUserInfo();
-  }, [accessToken]);
+  }, [accessToken, id]);
 
   return (
     <MainWrapper>

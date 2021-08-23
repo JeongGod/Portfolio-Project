@@ -1,11 +1,15 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
-import { loginApi } from "api/authApi";
+import { loginApi } from "api/auth";
 import { setToken } from "reducers/token";
+import "components/pages/login/index.css";
+import { Button, Form } from "react-bootstrap";
+import { useEffect } from "react";
 
 const Login = () => {
+  const { accessToken } = useSelector((state) => state.token);
   const history = useHistory();
   const dispatch = useDispatch();
   const idRef = useRef();
@@ -15,6 +19,12 @@ const Login = () => {
     dispatch(setToken(token));
     history.replace('/home')
   };
+
+  useEffect(() => {
+    if(accessToken) {
+      history.replace("/home");
+    }
+  }, [])
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
@@ -34,19 +44,20 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handlerSubmit}>
-        <label name="id">ID : </label>
-        <input ref={idRef} type="text" />
-        <br />
-        <label name="pw">PW : </label>
-        <input ref={pwRef} type="password" />
-        <br />
-        <input type="submit" value="로그인" />
-      </form>
-      <Link to="/signup">
-        <button>회원가입</button>
-      </Link>
+    <div class="wrapperForm">
+      <h3>Racer Portfolio</h3>
+      <Form onSubmit={handlerSubmit}>
+        <Form.Label name="id">Email</Form.Label>
+        <Form.Control ref={idRef} type="text" placeholder="elice@elice.com" />
+        <Form.Label name="pw">PW</Form.Label>
+        <Form.Control ref={pwRef} type="password" />
+        <Button variant="primary" type="submit">
+          로그인
+        </Button>
+        <Link to="/signup">
+          <Button variant="info">회원가입</Button>
+        </Link>
+      </Form>
     </div>
   );
 };

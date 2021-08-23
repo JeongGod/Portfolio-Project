@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 
-import { deleteApi, updateApi } from "api/userApi";
+import "components/Introduce/index.css";
+
+import { deleteApi, updateApi } from "api/user";
 import { useToken } from "components/CommonHook";
-
-const IntroduceWrapper = styled.div`
-  width: 60vw;
-  min-height: 20vh;
-  margin-left: 50px;
-  margin-top: 100px;
-  border: 1px solid black;
-`;
+import { Card, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { VscEdit } from 'react-icons/vsc'
+import { CgAddR } from 'react-icons/cg'
+import { RiDeleteBin5Line } from 'react-icons/ri'
+import { FaRegCheckSquare } from 'react-icons/fa'
 
 /**
  * @param {school : 정보, update : 정보 업데이트 함수}
@@ -20,74 +18,62 @@ const IntroduceWrapper = styled.div`
 const InputTag = ({ edu, index, update, remove }) => {
   return (
     <div>
-      <input
-        key={`name${index}`}
-        type="text"
-        name="name"
-        value={edu.school_name}
-        onChange={(e) => update({ ...edu, school_name: e.target.value })}
-      />
-      <br />
-      <input
-        key={`major${index}`}
-        type="text"
-        name="major"
-        value={edu.major}
-        onChange={(e) => update({ ...edu, major: e.target.value })}
-      />
-      <br />
-      <label key={`education1${index}`}>
-        <input
-          type="radio"
-          name={`${index}`}
-          value="재학중"
-          checked={edu.education === "재학중" ? true : false}
-          onChange={(e) => update({ ...edu, education: e.target.value })}
-        ></input>
-        재학중
-      </label>
-
-      <label key={`education2${index}`}>
-        <input
-          type="radio"
-          name={`${index}`}
-          value="학사졸업"
-          checked={edu.education === "학사졸업" ? true : false}
-          onChange={(e) => update({ ...edu, education: e.target.value })}
-        ></input>
-        학사졸업
-      </label>
-      <label htmlFor="education" key={`education3${index}`}>
-        <input
-          type="radio"
-          name={`${index}`}
-          value="석사졸업"
-          checked={edu.education === "석사졸업" ? true : false}
-          onChange={(e) => update({ ...edu, education: e.target.value })}
-        ></input>
-        석사졸업
-      </label>
-      <label htmlFor="education" key={`education4${index}`}>
-        <input
-          type="radio"
-          name={`${index}`}
-          value="박사졸업"
-          checked={edu.education === "박사졸업" ? true : false}
-          onChange={(e) => update({ ...edu, education: e.target.value })}
-        ></input>
-        박사졸업
-      </label>
-      <button onClick={() => remove(edu.edu_id)}>삭제</button>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">School</InputGroup.Text>
+        <FormControl
+          key={`name${index}`}
+          type="text"
+          name="name"
+          value={edu.school_name}
+          onChange={(e) => update({ ...edu, school_name: e.target.value })}
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Major</InputGroup.Text>
+        <FormControl
+          key={`major${index}`}
+          type="text"
+          name="major"
+          value={edu.major}
+          onChange={(e) => update({ ...edu, major: e.target.value })}
+        />
+      </InputGroup>
+      <Form className="edit">
+      {["재학중", "학사졸업", "석사졸업", "박사졸업"].map((type) => (
+        <div key={`radio-${type}`} className="mb-3">
+          <Form.Check
+            inline
+            type="radio"
+            name={`${index}`}
+            id={`${index}-${type}`}
+            label={`${type}`}
+            checked={edu.education === type ? true : false}
+            onChange={(e) => update({ ...edu, education: type })}
+          />
+        </div>
+      ))}
+      <div style={{marginLeft:"auto"}}>
+        <h3>
+          <RiDeleteBin5Line onClick={() => remove(edu.edu_id)}>삭제</RiDeleteBin5Line>
+        </h3>
+      </div>
+      </Form>
+      
     </div>
   );
 };
 
 const Education = ({ data, editAuth }) => {
   // useState대신 useRef를 사용해서 이벤트가 이루어졌을경우 값을 가져오는게 가능할까?
-  const [edus, setEdus] = useState(data);
+  const [edus, setEdus] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setEdus(data)
+  }, [data])
+
   // 정보 추가
   const handlerCreate = () => {
     setEdus(
@@ -128,47 +114,63 @@ const Education = ({ data, editAuth }) => {
   };
 
   return (
-    <IntroduceWrapper>
-      <h3>학력</h3>
-      {edit ? (
-        <div>
-          {edus.map((edu, index) => {
-            return (
-              <InputTag
-                edu={edu}
-                index={index}
-                update={handlerSetEdus}
-                remove={handlerDelete}
-              />
-            );
-          })}
+    <Card className="introduceWrapper">
+      <Card.Header>학력</Card.Header>
+      {edus ? (
+      <Card.Body>
+        {edit ? (
+          <ListGroup>
+            {edus.map((edu, index) => {
+              return (
+                <ListGroup.Item key={index}>
+                  <InputTag
+                    edu={edu}
+                    index={index}
+                    update={handlerSetEdus}
+                    remove={handlerDelete}
+                  />
+                </ListGroup.Item>
+              );
+            })}
 
-          <button onClick={() => handlerCreate()}>추가</button>
-          <button onClick={() => handlerSetEdit()}>edit</button>
-        </div>
-      ) : (
-        <div>
-          <ul>
-            {edus.length === 0 ? (
-              <p>등록된 내역이 없습니다.</p>
-            ) : (
-              edus.map((edu, index) => {
-                return (
-                  <li key={index}>
-                    <p>{edu.school_name}</p>
-                    <p>{edu.major}</p>
-                    <p>{edu.education}</p>
-                  </li>
-                );
-              })
+            <div className="edit">
+              <h3>
+                <CgAddR onClick={() => handlerCreate()}>추가</CgAddR>
+                <FaRegCheckSquare onClick={() => handlerSetEdit()}>완료</FaRegCheckSquare>
+              </h3>
+            </div>
+          </ListGroup>
+        ) : (
+          <div>
+            <ListGroup>
+              {edus.length === 0 ? (
+                <Card.Title>등록된 내역이 없습니다.</Card.Title>
+              ) : (
+                edus.map((edu, index) => {
+                  return (
+                    <ListGroup.Item key={index}>
+                      <Card.Title>{edu.school_name}</Card.Title>
+                      <Card.Text>{edu.major}</Card.Text>
+                      <Card.Text>{edu.education}</Card.Text>
+                    </ListGroup.Item>
+                  );
+                })
+              )}
+            </ListGroup>
+            {editAuth && (
+              <div className="edit">
+                <h3>
+                  <VscEdit onClick={() => setEdit((prev) => !prev)}>설정</VscEdit>
+                </h3>
+              </div>
             )}
-          </ul>
-          {editAuth && (
-            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          )}
-        </div>
+          </div>
+        )}
+      </Card.Body>
+      ) : (
+        <p>waiting..</p>
       )}
-    </IntroduceWrapper>
+    </Card>
   );
 };
 

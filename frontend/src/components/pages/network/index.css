@@ -1,0 +1,14 @@
+.userWrapper p {
+    min-height:3em;
+    max-height:3em;
+}
+.userWrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 3em;
+    height: 60vh;
+}
+
+.searchWrapper {
+    padding : 3vh 10vh;
+}
