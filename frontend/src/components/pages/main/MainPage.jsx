@@ -74,7 +74,8 @@ const MainPage = () => {
 
   useEffect(() => {
     handlerUserInfo();
-  }, [accessToken]);
+  }, [accessToken, id]);
+
   return (
     <MainWrapper>
       {!info ? (

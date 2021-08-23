@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import "components/Introduce/index.css";
@@ -65,10 +65,15 @@ const InputTag = ({ edu, index, update, remove }) => {
 
 const Education = ({ data, editAuth }) => {
   // useState대신 useRef를 사용해서 이벤트가 이루어졌을경우 값을 가져오는게 가능할까?
-  const [edus, setEdus] = useState(data);
+  const [edus, setEdus] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setEdus(data)
+  }, [data])
+
   // 정보 추가
   const handlerCreate = () => {
     setEdus(
@@ -111,6 +116,7 @@ const Education = ({ data, editAuth }) => {
   return (
     <Card className="introduceWrapper">
       <Card.Header>학력</Card.Header>
+      {edus ? (
       <Card.Body>
         {edit ? (
           <ListGroup>
@@ -161,6 +167,9 @@ const Education = ({ data, editAuth }) => {
           </div>
         )}
       </Card.Body>
+      ) : (
+        <p>waiting..</p>
+      )}
     </Card>
   );
 };

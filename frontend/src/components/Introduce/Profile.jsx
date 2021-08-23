@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import "components/Introduce/index.css";
@@ -8,13 +8,17 @@ import { useToken } from "components/CommonHook";
 import { Card, FormControl, InputGroup } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc'
 import { FaRegCheckSquare } from 'react-icons/fa'
-import { useEffect } from "react";
 
 const Profile = ({ data, editAuth }) => {
   const { accessToken } = useSelector((state) => state.token);
-  const [profile, setProfile] = useState(data);
+  const [profile, setProfile] = useState();
   const [edit, setEdit] = useState(false);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setProfile(data)
+  }, [data])
+
   const handlerSetEdit = () => {
     setEdit((prev) => !prev);
     patchApi(profile, accessToken).then((res) => {
@@ -24,16 +28,18 @@ const Profile = ({ data, editAuth }) => {
 
   return (
     <Card className="text-center profileWrapper">
-      {!profile.image ? (
-        <img
-          className="profileImage"
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-          alt="Profile Image"
-        />
-      ) : (
-        <img src={profile.img} alt="Profile Image" />
-      )}
-      <Card.Title>{profile.racer_name}</Card.Title>
+      {profile ? (
+        <>
+        {!profile.image ? (
+          <img
+            className="profileImage"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            alt="Profile Image"
+          />
+        ) : (
+          <img src={profile.img} alt="Profile Image" />
+        )}
+        <Card.Title>{profile.racer_name}</Card.Title>
       {edit ? (
         <>
           <InputGroup className="mb-3">
@@ -56,6 +62,7 @@ const Profile = ({ data, editAuth }) => {
           </div>
         </>
       ) : (
+        
         <div>
           <Card.Text>{profile.introduce}</Card.Text>
           {editAuth && (
@@ -66,6 +73,10 @@ const Profile = ({ data, editAuth }) => {
             </div>
           )}
         </div>
+      )}
+      </>
+      ) : (
+        <p>waiting..</p>
       )}
     </Card>
   );

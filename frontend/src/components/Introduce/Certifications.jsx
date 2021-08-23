@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 
@@ -12,6 +12,7 @@ import { VscEdit } from "react-icons/vsc";
 import { CgAddR } from "react-icons/cg";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { FaRegCheckSquare } from "react-icons/fa";
+
 
 const InputTag = ({ cert, index, update, remove }) => {
   return (
@@ -57,10 +58,14 @@ const InputTag = ({ cert, index, update, remove }) => {
 };
 
 const Certifications = ({ data, editAuth }) => {
-  const [certs, setCerts] = useState(data);
+  const [certs, setCerts] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setCerts(data)
+  }, [data])
 
   const handlerCreate = () => {
     setCerts(
@@ -106,6 +111,7 @@ const Certifications = ({ data, editAuth }) => {
   return (
     <Card className="introduceWrapper">
       <Card.Header>자격증</Card.Header>
+      {certs ? (
       <Card.Body>
         {edit ? (
           <ListGroup>
@@ -159,6 +165,9 @@ const Certifications = ({ data, editAuth }) => {
           </div>
         )}
       </Card.Body>
+      ) : (
+        <p>waiting..</p>
+      )}
     </Card>
   );
 };

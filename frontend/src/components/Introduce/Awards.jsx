@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import "components/Introduce/index.css";
@@ -10,6 +10,7 @@ import { VscEdit } from 'react-icons/vsc'
 import { CgAddR } from 'react-icons/cg'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { FaRegCheckSquare } from 'react-icons/fa'
+
 
 /**
  * @param {school : 정보, update : 정보 업데이트 함수}
@@ -48,10 +49,14 @@ const InputTag = ({ award, index, update, remove }) => {
 };
 
 const Awards = ({ data, editAuth }) => {
-  const [awards, setAwards] = useState(data);
+  const [awards, setAwards] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setAwards(data)
+  }, [data])
 
   const handlerCreate = () => {
     setAwards(
@@ -90,6 +95,7 @@ const Awards = ({ data, editAuth }) => {
   return (
     <Card className="introduceWrapper">
       <Card.Header>수상이력</Card.Header>
+      {awards ? (
       <Card.Body>
         {edit ? (
           <ListGroup className="listWrapper">
@@ -138,7 +144,11 @@ const Awards = ({ data, editAuth }) => {
           </div>
         )}
       </Card.Body>
+      ) : (
+        <p>waiting..</p>
+      )}
     </Card>
+    
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 
@@ -77,10 +77,14 @@ const InputTag = ({ project, index, update, remove }) => {
 };
 
 const Projectss = ({ data, editAuth }) => {
-  const [projects, setProjects] = useState(data);
+  const [projects, setProjects] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
   const tokenHandler = useToken();
+
+  useEffect(() => {
+    setProjects(data)
+  }, [data])
 
   const handlerCreate = () => {
     setProjects(
@@ -128,6 +132,7 @@ const Projectss = ({ data, editAuth }) => {
   return (
     <Card className="introduceWrapper">
       <Card.Header>프로젝트</Card.Header>
+      {projects ? (
       <Card.Body>
         {edit ? (
           <ListGroup>
@@ -179,6 +184,9 @@ const Projectss = ({ data, editAuth }) => {
           </div>
         )}
       </Card.Body>
+      ) : (
+        <p>waiting..</p>
+      )}
     </Card>
   );
 };
