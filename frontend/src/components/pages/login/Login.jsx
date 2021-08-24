@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
@@ -6,7 +6,7 @@ import { loginApi } from "api/auth";
 import { setToken } from "reducers/token";
 import "components/pages/login/index.css";
 import { Button, Form } from "react-bootstrap";
-import { useEffect } from "react";
+import AlertModal from "components/pages/AlertModal";
 
 const Login = () => {
   const { accessToken } = useSelector((state) => state.token);
@@ -14,7 +14,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const idRef = useRef();
   const pwRef = useRef();
-  
+
   const handleToken = (token) => {
     dispatch(setToken(token));
     history.replace('/home')
@@ -25,6 +25,26 @@ const Login = () => {
       history.replace("/home");
     }
   }, [])
+
+  const [modalData, setModalData] = useState({
+    show : false,
+    title : "",
+    desc : ""
+  });
+
+  const handleModalData = (title, desc) => {
+    setModalData({
+      show : true,
+      title,
+      desc
+    })
+
+  }
+  const handleClose = () => setModalData({
+    show : false,
+    title : "",
+    desc : ""
+  });
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
@@ -37,9 +57,9 @@ const Login = () => {
       handleToken(response.data.access_token)
       
     } else if (response.data.result === "no exist") {
-      alert("존재하는 ID가 아닙니다.");
+      handleModalData("로그인 실패", "존재하는 이메일이 아닙니다.");
     } else {
-      alert("아이디와 비밀번호를 확인해주세요.");
+      handleModalData("로그인 실패", "아이디와 비밀번호를 확인해주세요.")
     }
   };
 
@@ -58,6 +78,8 @@ const Login = () => {
           <Button variant="info">회원가입</Button>
         </Link>
       </Form>
+
+      {modalData.show && <AlertModal data={modalData} handleClose={handleClose} /> }
     </div>
   );
 };
