@@ -11,7 +11,7 @@ class racers(db.Model):
     image: str
     introduce: str
 
-    racer_id    = db.Column(db.String(20), primary_key=True, nullable=False)
+    racer_id    = db.Column(db.String(50), primary_key=True, nullable=False)
     racer_pw    = db.Column(db.String(255), nullable=False)
     racer_name  = db.Column(db.String(20), nullable=False)
     image       = db.Column(db.String(2048))
