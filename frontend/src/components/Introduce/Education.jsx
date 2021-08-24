@@ -144,7 +144,7 @@ const Education = ({ data, editAuth }) => {
           <div>
             <ListGroup>
               {edus.length === 0 ? (
-                <Card.Title>등록된 내역이 없습니다.</Card.Title>
+                <Card.Title>등록 내역이 없습니다.</Card.Title>
               ) : (
                 edus.map((edu, index) => {
                   return (
