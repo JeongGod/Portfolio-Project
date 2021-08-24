@@ -8,6 +8,7 @@ import Education from "components/Introduce/Education";
 import Awards from "components/Introduce/Awards";
 import Projects from "components/Introduce/Projects";
 import Certifications from "components/Introduce/Certifications";
+import AlertModal from "components/pages/AlertModal";
 
 import { userInfoApi } from "api/user";
 import { useToken } from "components/CommonHook";
@@ -34,6 +35,25 @@ const MainPage = () => {
   const location = useLocation();
   const [info, setInfo] = useState();
   const tokenHandler = useToken();
+  const [modalData, setModalData] = useState({
+    show : false,
+    title : "",
+    desc : ""
+  });
+
+  const handleModalData = (show, title, desc) => {
+    setModalData({
+      show,
+      title,
+      desc
+    })
+  }
+
+  const handleClose = () => setModalData({
+    show : false,
+    title : "",
+    desc : ""
+  });
 
   const userParams = new URLSearchParams(location.search);
   const id = userParams.get("id");
@@ -83,15 +103,16 @@ const MainPage = () => {
       ) : (
         <>
           <LeftWrapper>
-            <Profile data={info.user_info} editAuth={!id} />
+            <Profile data={info.user_info} editAuth={!id} handlerModal={handleModalData} />
           </LeftWrapper>
 
           <RightWrapper>
-            <Education data={info.edus_info} editAuth={!id} />
-            <Awards data={info.awards_info} editAuth={!id} />
-            <Projects data={info.projects_info} editAuth={!id} />
-            <Certifications data={info.certs_info} editAuth={!id} />
+            <Education data={info.edus_info} editAuth={!id} handlerModal={handleModalData} />
+            <Awards data={info.awards_info} editAuth={!id} handlerModal={handleModalData} />
+            <Projects data={info.projects_info} editAuth={!id} handlerModal={handleModalData} />
+            <Certifications data={info.certs_info} editAuth={!id} handlerModal={handleModalData} />
           </RightWrapper>
+          {modalData.show && <AlertModal data={modalData} handleClose={handleClose} /> }
         </>
       )}
     </MainWrapper>

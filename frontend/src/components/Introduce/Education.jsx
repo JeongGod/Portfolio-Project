@@ -18,7 +18,7 @@ import { FaRegCheckSquare } from 'react-icons/fa'
 const InputTag = ({ edu, index, update, remove }) => {
   return (
     <div>
-      <InputGroup className="mb-3">
+      <InputGroup hasValidation className="mb-3">
         <InputGroup.Text id="basic-addon1">School</InputGroup.Text>
         <FormControl
           key={`name${index}`}
@@ -26,7 +26,11 @@ const InputTag = ({ edu, index, update, remove }) => {
           name="name"
           value={edu.school_name}
           onChange={(e) => update({ ...edu, school_name: e.target.value })}
+          isInvalid={!!!edu.school_name}
         />
+        <Form.Control.Feedback type="invalid">
+          학교 이름을 입력해주세요.
+        </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroup.Text id="basic-addon1">Major</InputGroup.Text>
@@ -36,7 +40,11 @@ const InputTag = ({ edu, index, update, remove }) => {
           name="major"
           value={edu.major}
           onChange={(e) => update({ ...edu, major: e.target.value })}
+          isInvalid={!!!edu.major}
         />
+        <Form.Control.Feedback type="invalid">
+          전공을 입력해주세요.
+        </Form.Control.Feedback>
       </InputGroup>
       <Form className="edit">
       {["재학중", "학사졸업", "석사졸업", "박사졸업"].map((type) => (
@@ -63,7 +71,7 @@ const InputTag = ({ edu, index, update, remove }) => {
   );
 };
 
-const Education = ({ data, editAuth }) => {
+const Education = ({ data, editAuth, handlerModal}) => {
   // useState대신 useRef를 사용해서 이벤트가 이루어졌을경우 값을 가져오는게 가능할까?
   const [edus, setEdus] = useState();
   const [edit, setEdit] = useState(false);
@@ -96,7 +104,6 @@ const Education = ({ data, editAuth }) => {
   // InputTag 컴포넌트에서 바꾼 객체를 이 함수의 인자로 가지고 온다.
   // 가지고 온 객체를 현재 state에서 교체한다.
   const handlerSetEdus = (obj) => {
-    console.log(obj);
     const target = [...edus].map((edu) => {
       if (edu.edu_id === obj.edu_id) {
         edu = obj;
@@ -107,6 +114,12 @@ const Education = ({ data, editAuth }) => {
   };
 
   const handlerSetEdit = () => {
+    const isValid = edus.filter((edu) => (!!!edu.school_name || !!!edu.major))
+    if (isValid.length !== 0) {
+      handlerModal(true, "업데이트 실패", "빈칸을 채워주세요.");
+      return;
+    }
+
     setEdit((prev) => !prev);
     updateApi("edus", edus, accessToken).then((res) => {
       tokenHandler(res);

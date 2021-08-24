@@ -5,7 +5,7 @@ import "components/Introduce/index.css";
 
 import { updateApi, deleteApi } from "api/user";
 import { useToken } from "components/CommonHook";
-import { Card, FormControl, InputGroup, ListGroup } from "react-bootstrap";
+import { Card, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc'
 import { CgAddR } from 'react-icons/cg'
 import { RiDeleteBin5Line } from 'react-icons/ri'
@@ -27,7 +27,11 @@ const InputTag = ({ award, index, update, remove }) => {
           name="name"
           value={award.award_name}
           onChange={(e) => update({ ...award, award_name: e.target.value })}
+          isInvalid={!!!award.award_name}
         />
+        <Form.Control.Feedback type="invalid">
+          수상 이름을 입력해주세요.
+        </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
         <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
@@ -37,7 +41,11 @@ const InputTag = ({ award, index, update, remove }) => {
           name="detail"
           value={award.award_detail}
           onChange={(e) => update({ ...award, award_detail: e.target.value })}
+          isInvalid={!!!award.award_detail}
         />
+        <Form.Control.Feedback type="invalid">
+          수상 설명을 입력해주세요.
+        </Form.Control.Feedback>
       </InputGroup>
       <div className="edit">
         <h3>
@@ -48,7 +56,7 @@ const InputTag = ({ award, index, update, remove }) => {
   );
 };
 
-const Awards = ({ data, editAuth }) => {
+const Awards = ({ data, editAuth, handlerModal }) => {
   const [awards, setAwards] = useState();
   const [edit, setEdit] = useState(false);
   const { accessToken } = useSelector((state) => state.token);
@@ -86,6 +94,12 @@ const Awards = ({ data, editAuth }) => {
   };
 
   const handlerSetEdit = () => {
+    const isValid = awards.filter((award) => (!!!award.award_name || !!!award.detail))
+    if (isValid.length !== 0) {
+      handlerModal(true, "업데이트 실패", "빈칸을 채워주세요.");
+      return;
+    }
+
     setEdit((prev) => !prev);
     updateApi("awards", awards, accessToken).then((res) => {
       tokenHandler(res);
