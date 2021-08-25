@@ -32,8 +32,7 @@ const NetworkPage = () => {
     handler();
   }, []);
 
-  const handlerSearch = (e) => {
-    const query = e.target.value;
+  const handlerSearch = (query) => {
     if (!query) {
       setUsers({ ...users, others: users.searchUsers });
       return;

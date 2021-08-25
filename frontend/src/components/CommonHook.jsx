@@ -7,6 +7,7 @@ export const useToken = () => {
   const dispatch = useDispatch();
 
   const handler = (res) => {
+    if (!!!res) return
     if (res === "expired") {
       // refresh token만료
       history.replace("/");

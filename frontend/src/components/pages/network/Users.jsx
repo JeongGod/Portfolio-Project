@@ -12,8 +12,9 @@ const Users = ({ others }) => {
     history.push(`/home?id=${racer_id}`);
   };
 
-  return (
-    <div className="userWrapper">
+  const UserList = () => {
+    return (
+      <>
       {others.map((user, index) => {
         return (
           <Card className="text-center" key={index}>
@@ -44,6 +45,20 @@ const Users = ({ others }) => {
           </Card>
         );
       })}
+      </>
+    )
+  }
+
+  console.log(others);
+  return (
+    <div>
+      {others.length !== 0 ? ( 
+      <div className="userWrapper">
+        <UserList />
+      </div>
+      ) : (
+      <h3>검색 결과가 없습니다.</h3>
+      )}
     </div>
   );
 };
