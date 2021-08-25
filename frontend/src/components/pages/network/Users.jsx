@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import "components/pages/network/index.css";
 import { Card, Button } from "react-bootstrap";
+import profile_image from 'images/profile_image.png';
 
 const Users = ({ others }) => {
   const history = useHistory();
@@ -19,7 +20,7 @@ const Users = ({ others }) => {
             <div className="imgWrapper">
             <Card.Img
               variant="top"
-              src="https://cdn.hellodd.com/news/photo/202005/71835_craw1.jpg"
+              src={profile_image}
               alt="user image"
             />
             </div>

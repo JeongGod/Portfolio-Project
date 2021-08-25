@@ -4,10 +4,12 @@ import { useSelector } from "react-redux";
 import "components/Introduce/index.css";
 
 import { patchApi } from "api/user";
+import { uploadFileToBlob } from "api/azureStorage";
 import { useToken } from "components/CommonHook";
 import { Card, FormControl, InputGroup } from "react-bootstrap";
 import { VscEdit } from 'react-icons/vsc'
 import { FaRegCheckSquare } from 'react-icons/fa'
+import profile_image from 'images/profile_image.png';
 
 const Profile = ({ data, editAuth }) => {
   const { accessToken } = useSelector((state) => state.token);
@@ -26,20 +28,38 @@ const Profile = ({ data, editAuth }) => {
     });
   };
 
+  const handlerFileInput = async (e) => {
+    const res = await uploadFileToBlob(e.target.files[0])
+    
+    setProfile({
+      ...profile,
+      image : res.url
+    })
+    
+    await patchApi({...profile,image:res.url}, accessToken)
+
+    tokenHandler(res);
+    
+  }
+
   return (
     <Card className="text-center profileWrapper">
       {profile ? (
         <>
           <div className="imgWrapper2">
+          <label for="profile-image-file">
         {!profile.image ? (
-          <Card.Img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-            alt="Profile Image"
-          />
+            <Card.Img
+              src={profile_image}
+              alt="Profile Image"
+            />
+          
         ) : (
-          <Card.Img src={profile.img} alt="Profile Image" />
+          <Card.Img src={profile.image} alt="Profile Image" />
         )}
-        </div>
+        </label>
+          <input type="file" accept=".jpg, .jpeg, .png" id="profile-image-file" style={{display:"none"}} onChange={e => handlerFileInput(e)}/>
+          </div>
         <Card.Title>{profile.racer_name}</Card.Title>
       {edit ? (
         <>

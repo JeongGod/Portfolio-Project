@@ -26,3 +26,4 @@ backend/config.py
 __pycache__
 .vscode
 git-commit-template.txt
+azure_key.js
