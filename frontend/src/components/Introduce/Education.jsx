@@ -163,8 +163,7 @@ const Education = ({ data, editAuth, handlerModal}) => {
                   return (
                     <ListGroup.Item key={index}>
                       <Card.Title>{edu.school_name}</Card.Title>
-                      <Card.Text>{edu.major}</Card.Text>
-                      <Card.Text>{edu.education}</Card.Text>
+                      <Card.Text>{edu.major} ({edu.education})</Card.Text>
                     </ListGroup.Item>
                   );
                 })
