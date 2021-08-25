@@ -95,7 +95,9 @@ export const patchApi = async (data, access_token) => {
 };
 
 export const deleteApi = async (type, data, access_token) => {
-  console.log(typeof type);
+  if (data.search("create") === 0) {
+    return;
+  }
   try {
     const response = await axios.delete(
       `${API_BASE_URL}/user-info/${type}/${data}`,
