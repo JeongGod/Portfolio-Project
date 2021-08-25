@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+
 from db_connect import db
+
 
 @dataclass
 class racers(db.Model):

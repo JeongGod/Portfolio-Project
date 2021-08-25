@@ -1,7 +1,7 @@
 import jwt
+from flask import Blueprint, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from service.user_service import User
-from flask import request, Blueprint
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 user = Blueprint('user', __name__, url_prefix='/user-info')
 

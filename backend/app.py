@@ -1,16 +1,17 @@
-from controller.user import user
-from controller.auth import auth
 from flask import Flask
-from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from db_connect import db
+from flask_migrate import Migrate
+
 import config
+from controller.auth import auth
+from controller.user import user
+from db_connect import db
 
 
 def create_app():
     app = Flask(__name__)
-    
+
     # JWT 설정
     jwt = JWTManager(app)
 
@@ -23,7 +24,7 @@ def create_app():
     db.init_app(app)
     Migrate().init_app(app, db)
 
-    from models import racers, educations, awards, projects, certificates
+    from models import awards, certificates, educations, projects, racers
 
     ### 추후 수정예정
     CORS(app)

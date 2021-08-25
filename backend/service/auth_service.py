@@ -1,8 +1,9 @@
-from flask import jsonify
-from models.racers import racers
-from db_connect import db
 from bcrypt import checkpw
+from db_connect import db
+from flask import jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token
+from models.racers import racers
+
 
 class Auth:
     def login_user(data):

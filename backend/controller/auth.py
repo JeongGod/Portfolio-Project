@@ -1,7 +1,7 @@
+from bcrypt import gensalt, hashpw
+from flask import Blueprint, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from service.auth_service import Auth
-from flask import request, Blueprint
-from bcrypt import hashpw, gensalt
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 

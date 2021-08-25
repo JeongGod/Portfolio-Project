@@ -1,11 +1,13 @@
-from db_connect import db
-from models.racers import racers
-from models.educations import educations
-from models.awards import awards
-from models.projects import projects
-from models.certificates import certificates
 from datetime import date
+
+from db_connect import db
 from flask import jsonify
+from models.awards import awards
+from models.certificates import certificates
+from models.educations import educations
+from models.projects import projects
+from models.racers import racers
+
 
 class User:
     def get_user_info(id):
