@@ -30,15 +30,16 @@ const Profile = ({ data, editAuth }) => {
     <Card className="text-center profileWrapper">
       {profile ? (
         <>
+          <div className="imgWrapper2">
         {!profile.image ? (
-          <img
-            className="profileImage"
+          <Card.Img
             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
             alt="Profile Image"
           />
         ) : (
-          <img src={profile.img} alt="Profile Image" />
+          <Card.Img src={profile.img} alt="Profile Image" />
         )}
+        </div>
         <Card.Title>{profile.racer_name}</Card.Title>
       {edit ? (
         <>

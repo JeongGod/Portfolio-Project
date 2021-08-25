@@ -80,6 +80,7 @@ const SignUp = () => {
 
   return (
     <div className="wrapperForm">
+      <h3>Racer Portfolio</h3>
       <Form onSubmit={(e) => handlerSubmit(e)}>
         <Form.Group>
           <Form.Label name="id">이메일</Form.Label>

@@ -7,6 +7,15 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 3em;
     height: 60vh;
+    margin : 10em;
+}
+
+.imgWrapper {
+    height: 20vh;
+    flex: 1;
+    border-radius: 70%;
+    overflow: hidden;
+    margin: 2em;
 }
 
 .searchWrapper {
