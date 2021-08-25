@@ -15,18 +15,15 @@ import { useToken } from "components/CommonHook";
 
 const MainWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 `;
 const LeftWrapper = styled.div`
   width: 30vw;
-  height: 100vh;
   float: left;
 `;
 const RightWrapper = styled.div`
   width: 70vw;
-  height: 100vh;
-  display: table;
-  float: right;
+  float: left;
 `;
 
 const MainPage = () => {

@@ -18,11 +18,20 @@ const Users = ({ others }) => {
         return (
           <Card className="text-center" key={index}>
             <div className="imgWrapper">
-            <Card.Img
-              variant="top"
-              src={profile_image}
-              alt="user image"
-            />
+            {!user.image ? (
+              <Card.Img
+                variant="top"
+                src={profile_image}
+                alt="user image"
+              />
+            ) : (
+              <Card.Img
+                variant="top"
+                src={user.image}
+                alt="user image"
+              />
+            ) }
+            
             </div>
             <Card.Title>{user.racer_name}</Card.Title>
             <Card.Text>{user.introduce}</Card.Text>

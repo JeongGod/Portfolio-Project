@@ -123,7 +123,7 @@ const Certifications = ({ data, editAuth, handlerModal }) => {
   };
 
   return (
-    <Card className="introduceWrapper">
+    <Card className="introduceWrapper" style={{marginBottom: "200px"}}>
       <Card.Header>자격증</Card.Header>
       {certs ? (
       <Card.Body>
