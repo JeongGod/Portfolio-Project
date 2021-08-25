@@ -40,7 +40,7 @@ const InputTag = ({ cert, index, update, remove }) => {
           isInvalid={!!!cert.cert_detail}
         />
         <Form.Control.Feedback type="invalid">
-          전공을 입력해주세요.
+          자격증 내역을 입력해주세요.
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">

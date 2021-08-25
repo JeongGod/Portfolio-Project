@@ -94,7 +94,7 @@ const Awards = ({ data, editAuth, handlerModal }) => {
   };
 
   const handlerSetEdit = () => {
-    const isValid = awards.filter((award) => (!!!award.award_name || !!!award.detail))
+    const isValid = awards.filter((award) => (!!!award.award_name || !!!award.award_detail))
     if (isValid.length !== 0) {
       handlerModal(true, "업데이트 실패", "빈칸을 채워주세요.");
       return;

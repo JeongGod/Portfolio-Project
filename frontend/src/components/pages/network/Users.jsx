@@ -48,8 +48,6 @@ const Users = ({ others }) => {
       </>
     )
   }
-
-  console.log(others);
   return (
     <div>
       {others.length !== 0 ? ( 
