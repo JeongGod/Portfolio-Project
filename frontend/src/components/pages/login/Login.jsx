@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
-import { loginApi } from "api/auth";
+import { loginApi, googleLoginApi } from "api/auth";
 import { setToken } from "reducers/token";
 import "components/pages/login/index.css";
 import { Button, Form } from "react-bootstrap";
+import { GoogleLogin } from 'react-google-login';
 import AlertModal from "components/pages/AlertModal";
 
 const Login = () => {
@@ -63,6 +64,14 @@ const Login = () => {
     }
   };
 
+  const googleSuccess = async (res) => {
+    const response = await googleLoginApi(res);
+    handleToken(response.data.access_token);
+  }
+  const googleFailure = (error) => {
+    console.log(error);
+  }
+
   return (
     <div class="wrapperForm">
       <h3>Racer Portfolio</h3>
@@ -74,6 +83,16 @@ const Login = () => {
         <Button variant="primary" type="submit">
           로그인
         </Button>
+        <GoogleLogin
+          clientId = "416424167113-p2rpvhu1stdobbg5cki2g2mi43lg82i4.apps.googleusercontent.com"
+          responseType="code"
+          accessType="offline"
+          scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid"
+          state="state_parameter_passthrough_value"
+          onSuccess={googleSuccess}
+          onFailure={googleFailure}
+          cookiePolicy={'single_host_origin'}
+        />
         <Link to="/signup">
           <Button variant="info">회원가입</Button>
         </Link>
@@ -83,5 +102,11 @@ const Login = () => {
     </div>
   );
 };
+
+// clientId = {google_oauth2_client_id}
+//           buttonText="구글 계정으로 로그인"
+//           prompt="select_account"
+          
+
 
 export default Login;

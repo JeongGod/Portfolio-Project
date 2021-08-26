@@ -29,6 +29,22 @@ export const loginApi = async (info) => {
   }
 };
 
+export const googleLoginApi = async (code) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/auth/google/authorize`, code)
+    setCookie("refresh_token", response.data.refresh_token, {
+      path: "/",
+      httponly: true,
+      secure: true,
+      sameSite: "none"
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
 export const logoutApi = async (deleteToken) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/auth/logout`, void 0, {
