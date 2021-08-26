@@ -13,12 +13,12 @@ export const userInfoApi = async (access_token, id = null) => {
     let response;
     if (!id) {
       response = await axios.get(
-        `${API_BASE_URL}/user-info`,
+        `${API_BASE_URL}/api/user-info`,
         config(access_token)
       );
     } else {
       response = await axios.get(
-        `${API_BASE_URL}/user-info/${id}`,
+        `${API_BASE_URL}/api/user-info/${id}`,
         config(access_token)
       );
     }
@@ -64,7 +64,7 @@ export const updateApi = async (type, datas, access_token) => {
 
   try {
     const response = await axios.put(
-      `${API_BASE_URL}/user-info/${type}`,
+      `${API_BASE_URL}/api/user-info/${type}`,
       data,
       config(access_token)
     );
@@ -83,7 +83,7 @@ export const updateApi = async (type, datas, access_token) => {
 export const patchApi = async (data, access_token) => {
   try {
     const response = await axios.patch(
-      `${API_BASE_URL}/user-info/profile`,
+      `${API_BASE_URL}/api/user-info/profile`,
       { profile: data },
       config(access_token)
     );
@@ -100,7 +100,7 @@ export const deleteApi = async (type, data, access_token) => {
   }
   try {
     const response = await axios.delete(
-      `${API_BASE_URL}/user-info/${type}/${data}`,
+      `${API_BASE_URL}/api/user-info/${type}/${data}`,
       config(access_token)
     );
     return response;
@@ -109,3 +109,4 @@ export const deleteApi = async (type, data, access_token) => {
     return handlerError(error);
   }
 };
+

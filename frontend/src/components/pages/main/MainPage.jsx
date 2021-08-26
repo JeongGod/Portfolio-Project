@@ -56,11 +56,14 @@ const MainPage = () => {
   const id = userParams.get("id");
 
   if (!accessToken) {
-    history.replace("/login");
+    history.replace("/");
   }
-
+  
   // url에 id가 있다면, network에서 온 것이다.
   const handlerUserInfo = async () => {
+    if (!accessToken) {
+      return;
+    }
     const response = await userInfoApi(accessToken, id);
 
     // token이 만료되었던 친구인지 판단한다.

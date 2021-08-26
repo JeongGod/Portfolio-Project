@@ -11,7 +11,7 @@ export const handlerExpiredToken = async () => {
   console.log(getCookie("refresh_token"));
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/auth/refresh`,
+      `${API_BASE_URL}/api/auth/refresh`,
       void 0,
       config(getCookie("refresh_token"))
     );

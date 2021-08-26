@@ -5,7 +5,7 @@ import { getCookie, setCookie } from "utils/cookie";
 export const signupApi = async (info) => {
   // 회원가입 API호출
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/signup`, info);
+    const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, info);
     return response;
   } catch (error) {
     console.log(error);
@@ -15,7 +15,7 @@ export const signupApi = async (info) => {
 
 export const loginApi = async (info) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, info);
+    const response = await axios.post(`${API_BASE_URL}/api/auth/login`, info);
     setCookie("refresh_token", response.data.refresh_token, {
       path: "/",
       httponly: true,
@@ -31,7 +31,7 @@ export const loginApi = async (info) => {
 
 export const googleLoginApi = async (code) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/google/authorize`, code)
+    const response = await axios.post(`${API_BASE_URL}/api/auth/google/authorize`, code)
     setCookie("refresh_token", response.data.refresh_token, {
       path: "/",
       httponly: true,
@@ -47,7 +47,7 @@ export const googleLoginApi = async (code) => {
 
 export const logoutApi = async (deleteToken) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/logout`, void 0, {
+    const response = await axios.post(`${API_BASE_URL}/api/auth/logout`, void 0, {
       headers: {
         "Content-Type": "application/json",
         // Bearer을 붙여야 하는 이유?

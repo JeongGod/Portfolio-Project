@@ -10,7 +10,7 @@ import { handlerError, config } from "api/commonHandler";
 export const getUserAll = async (access_token) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/user-info/all`,
+      `${API_BASE_URL}/api/user-info/all`,
       config(access_token)
     );
     return response;

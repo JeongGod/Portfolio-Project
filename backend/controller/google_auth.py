@@ -4,7 +4,7 @@ from flask import Blueprint, redirect, request
 from google_config import new_url
 from service.google_auth_service import Google_Auth
 
-google_auth = Blueprint('google_auth', __name__, url_prefix='/auth/google')
+google_auth = Blueprint('google_auth', __name__, url_prefix='api/auth/google')
 
 SCOPE = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid'
 REDIRECT_URI = 'http://localhost:5000/auth/google/authorize'

@@ -3,7 +3,7 @@ import { BlobServiceClient, ContainerClient} from '@azure/storage-blob';
 
 
 export const uploadFileToBlob = async (file) => {
-  
+  console.log(SAS_TOKEN, STORAGE_ACCOUNT_NAME);
   if (!file) return [];
   try {
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
