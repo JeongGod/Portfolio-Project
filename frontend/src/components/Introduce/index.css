@@ -1,0 +1,42 @@
+.imgWrapper2 {
+    flex: 1 1 20vh;
+    border-radius: 70%;
+    overflow: hidden;
+    margin: 3em;
+}
+
+.imgWrapper2 img {
+    width: 100%;
+    height: 20vh;
+}
+
+.edit {
+    display: flex;
+}
+
+.edit h3 {
+    margin-left:auto;
+    margin-top:auto;
+    cursor: pointer;
+}
+
+.edit h3 :hover {
+    transform: scale(1.1);
+}
+
+.profileWrapper {
+    margin-left: 7vh;
+    margin-right: 5vh;
+    margin-top: 5vh;
+    width: 20vw;
+}
+
+.introduceWrapper {
+    width: 60vw;
+    min-height: 20vh;
+    margin-left: 50px;
+    margin-top: 50px;
+};
+
+
+
