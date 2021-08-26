@@ -7,7 +7,6 @@ const SearchBar = ({ search }) => {
   const handlerChange = (query) => {
     setSearchValue(query);
     if (query.length != 1) {
-      console.log("asdfsadfsadf");
       search(query);
     }
   }

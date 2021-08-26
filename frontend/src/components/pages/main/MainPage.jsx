@@ -72,24 +72,25 @@ const MainPage = () => {
     };
 
     const { user, edus, awards, projects, certificates: certs } = response.data;
-
-    const projects_info = projects.map((project) => ({
-      ...project,
-      project_start_date: new Date(project.project_start_date),
-      project_end_date: new Date(project.project_end_date),
-    }));
-
-    const certs_info = certs.map((cert) => ({
-      ...cert,
-      cert_achieve_date: new Date(cert.cert_achieve_date),
-    }));
-    setInfo({
-      user_info: user,
-      edus_info: edus,
-      awards_info: awards,
-      projects_info: projects_info,
-      certs_info: certs_info,
-    });
+    if(projects){
+      const projects_info = projects.map((project) => ({
+        ...project,
+        project_start_date: new Date(project.project_start_date),
+        project_end_date: new Date(project.project_end_date),
+      }));
+  
+      const certs_info = certs.map((cert) => ({
+        ...cert,
+        cert_achieve_date: new Date(cert.cert_achieve_date),
+      }));
+      setInfo({
+        user_info: user,
+        edus_info: edus,
+        awards_info: awards,
+        projects_info: projects_info,
+        certs_info: certs_info,
+      });
+    }
   };
 
   useEffect(() => {
