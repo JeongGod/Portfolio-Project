@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from service.auth_service import Auth
 
-auth = Blueprint('auth', __name__, url_prefix='api/auth')
+auth = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 @auth.route('/login', methods=['POST'])
 def login():
@@ -29,4 +29,3 @@ def refresh():
     identity = get_jwt_identity()
     print(identity)
     return Auth.check_refresh_token(identity)
-    
