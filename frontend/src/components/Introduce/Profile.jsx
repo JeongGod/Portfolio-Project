@@ -58,7 +58,9 @@ const Profile = ({ data, editAuth }) => {
           <Card.Img src={profile.image} alt="Profile Image" />
         )}
         </label>
-          <input type="file" accept=".jpg, .jpeg, .png" id="profile-image-file" style={{display:"none"}} onChange={e => handlerFileInput(e)}/>
+          {editAuth && 
+            <input type="file" accept=".jpg, .jpeg, .png" id="profile-image-file" style={{display:"none"}} onChange={e => handlerFileInput(e)}/>
+          }
           </div>
         <Card.Title>{profile.racer_name}</Card.Title>
       {edit ? (

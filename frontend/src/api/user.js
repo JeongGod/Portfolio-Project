@@ -95,7 +95,7 @@ export const patchApi = async (data, access_token) => {
 };
 
 export const deleteApi = async (type, data, access_token) => {
-  if (data.search("create") === 0) {
+  if (typeof type === "string") {
     return;
   }
   try {
