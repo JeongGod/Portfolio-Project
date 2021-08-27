@@ -95,7 +95,7 @@ export const patchApi = async (data, access_token) => {
 };
 
 export const deleteApi = async (type, data, access_token) => {
-  if (typeof type === "string") {
+  if (typeof data === "string") {
     return;
   }
   try {
