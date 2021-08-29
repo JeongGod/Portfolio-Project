@@ -29,8 +29,8 @@ from dataclasses import dataclass
 python3.6이상부터 지원하는 모듈인 dataclass를 사용하고 있기 때문입니다.
 
 # About the project
-<!-- ![image](https://user-images.githubusercontent.com/22341452/131253353-6af3baf7-3ed3-4e16-a778-d4181af6ed1a.png)
-![image](https://user-images.githubusercontent.com/22341452/131252854-af40e7d0-4363-4c52-b47d-460109b5ff7e.png) -->
+![image](https://user-images.githubusercontent.com/22341452/131253353-6af3baf7-3ed3-4e16-a778-d4181af6ed1a.png)
+![image](https://user-images.githubusercontent.com/22341452/131252854-af40e7d0-4363-4c52-b47d-460109b5ff7e.png)
 
 <!-- 형준님한테 허락을 맡고 올리자. -->
 <!-- ![image](https://user-images.githubusercontent.com/22341452/131253289-40f41f01-77f1-45d1-88ca-bfa01d44631a.png) -->
@@ -42,7 +42,7 @@ Oauth2를 이용하여 구글 로그인을 구현하는 것과 JWT token을 이�
 Oauth2는 Client에서는 [React Google Login](https://www.npmjs.com/package/react-google-login)을 이용하여 Authorization Code를 얻은 뒤, 서버에서 해당 코드를 이용하여 토큰값을 얻고 유저 정보를 얻는 방식으로 구현했습니다.
 flask에도 Oauth2 구글 로그인 라이브러리가 존재했지만 세션을 이용하는게 마음에 들지않아 제가 직접 구글 공식 문서를 참조하여 구현하게 되었습니다.
 
-<!-- ![image](https://user-images.githubusercontent.com/22341452/131253761-8489926c-aa64-43ee-9777-a9e8ead2c04e.png) -->
+![image](https://user-images.githubusercontent.com/22341452/131253761-8489926c-aa64-43ee-9777-a9e8ead2c04e.png)
 
 ### JWT Token
 JWT token에 대해서는 정보가 확실치 않아서 많이 헤맸습니다. 정해진 형식이 있는게 아닌 사람마다 다 다른 방식으로 구현을 하여서 jwt 자체에 대해서 공부를 하느라 어려웠습니다.
