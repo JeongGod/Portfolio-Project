@@ -8,7 +8,6 @@ import { config } from "api/commonHandler";
  * 만약, Refresh Token이 만료되었다면 로그인을 다시 진행한다
  */
 export const handlerExpiredToken = async () => {
-  console.log(getCookie("refresh_token"));
   try {
     const response = await axios.post(
       `${API_BASE_URL}/api/auth/refresh`,

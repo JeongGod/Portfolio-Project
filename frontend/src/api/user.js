@@ -24,7 +24,7 @@ export const userInfoApi = async (access_token, id = null) => {
     }
     return response;
   } catch (error) {
-    console.log(error.request);
+    console.log(error);
     return handlerError(error);
   }
 };

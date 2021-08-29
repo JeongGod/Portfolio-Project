@@ -1,12 +1,10 @@
 import requests
-from config import GOOGLE_OAUTH2_CLIENT_ID, GOOGLE_OAUTH2_CLIENT_SECRET
+from config import (GOOGLE_OAUTH2_CLIENT_ID, GOOGLE_OAUTH2_CLIENT_SECRET,
+                    REDIRECT_URI, SCOPE)
 from flask import Blueprint, redirect, request
 from service.google_auth_service import Google_Auth
 
 google_auth = Blueprint('google_auth', __name__, url_prefix='/api/auth/google')
-
-SCOPE = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid'
-REDIRECT_URI = 'http://localhost:5000/auth/google/authorize'
 
 @google_auth.route('/authorize', methods=['POST'])
 def authorize():
@@ -19,7 +17,7 @@ def authorize():
         data = {'code': auth_code,
                 'client_id': GOOGLE_OAUTH2_CLIENT_ID,
                 'client_secret': GOOGLE_OAUTH2_CLIENT_SECRET,
-                'redirect_uri': "http://localhost:3000",
+                'redirect_uri': REDIRECT_URI,
                 'grant_type': 'authorization_code'}
         tokens = requests.post("https://oauth2.googleapis.com/token", data=data)
 

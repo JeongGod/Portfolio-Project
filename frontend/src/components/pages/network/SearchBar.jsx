@@ -6,13 +6,13 @@ const SearchBar = ({ search }) => {
 
   const handlerChange = (query) => {
     setSearchValue(query);
-    if (query.length != 1) {
+    if (query.length !== 1) {
       search(query);
     }
   }
 
   const handlerValid = () => {
-    if (searchValue.length == 1) {
+    if (searchValue.length === 1) {
       return false;
     }
     return true;

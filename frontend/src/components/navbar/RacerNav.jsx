@@ -23,13 +23,8 @@ const RacerNav = () => {
   
   const handlerLogout = async (e) => {
     e.preventDefault();
-    const res = await logoutApi(deleteToken)
+    await logoutApi(deleteToken)
     history.replace('/')
-  }
-
-  const handlerPage = (e, urlData) => {
-    e.preventDefault();
-    history.replace(`/${urlData}`)
   }
 
   return (

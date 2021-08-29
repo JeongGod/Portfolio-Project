@@ -84,10 +84,11 @@ const Login = () => {
           로그인
         </Button>
         <GoogleLogin
-          clientId = "416424167113-p2rpvhu1stdobbg5cki2g2mi43lg82i4.apps.googleusercontent.com"
+          clientId = {process.env.REACT_APP_GOOGLE_CLIENT_ID}
           responseType="code"
           accessType="offline"
-          scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid"
+          prompt= "select_account"
+          scope= {process.env.REACT_APP_GOOGLE_SCOPE}
           state="state_parameter_passthrough_value"
           onSuccess={googleSuccess}
           onFailure={googleFailure}
