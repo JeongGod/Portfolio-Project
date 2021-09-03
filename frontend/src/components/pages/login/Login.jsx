@@ -104,10 +104,4 @@ const Login = () => {
   );
 };
 
-// clientId = {google_oauth2_client_id}
-//           buttonText="구글 계정으로 로그인"
-//           prompt="select_account"
-          
-
-
 export default Login;

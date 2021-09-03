@@ -20,12 +20,12 @@ const InputTag = ({ award, index, update, remove }) => {
   return (
     <div>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
         <FormControl
           key={`name${index}`}
           type="text"
           name="name"
           value={award.award_name}
+          placeholder="수상 제목"
           onChange={(e) => update({ ...award, award_name: e.target.value })}
           isInvalid={!!!award.award_name}
         />
@@ -34,17 +34,17 @@ const InputTag = ({ award, index, update, remove }) => {
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
         <FormControl
           key={`detail${index}`}
           type="text"
           name="detail"
           value={award.award_detail}
+          placeholder="수상 내역"
           onChange={(e) => update({ ...award, award_detail: e.target.value })}
           isInvalid={!!!award.award_detail}
         />
         <Form.Control.Feedback type="invalid">
-          수상 설명을 입력해주세요.
+          수상 내역을 입력해주세요.
         </Form.Control.Feedback>
       </InputGroup>
       <div className="edit">

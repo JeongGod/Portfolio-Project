@@ -2,15 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
 import { logoutApi } from "api/auth";
 import { initToken } from "reducers/token";
-import { useHistory } from "react-router-dom";
-
-/**
- * Link에서 home화면을 "/"로 하면 bootstrap에서 active class가 안빠지게 된다.
- * 그래서 "/home"으로 변경하여 사용한다.
- */
+import { useHistory, Link } from "react-router-dom";
 
 const RacerNav = () => {
   
@@ -28,28 +22,26 @@ const RacerNav = () => {
   }
 
   return (
-    <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <LinkContainer to={accessToken ? "/home" : "/"}>
-            <Navbar.Brand>RacerIn</Navbar.Brand>
-          </LinkContainer>
-          {accessToken && ( 
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand as={Link} to={accessToken ? "/home" : "/"}>
+          RacerIn
+        </Navbar.Brand>
+        {accessToken && (
           <Nav className="me-auto">
-            <LinkContainer to="/home">
-              <Nav.Link>Main</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/network">
-              <Nav.Link>Network</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/">
-              <Nav.Link onClick={(e) => handlerLogout(e)}>Logout</Nav.Link>
-            </LinkContainer>
+            <Nav.Link as={Link} to="/home">
+              Main
+            </Nav.Link>
+            <Nav.Link as={Link} to="/network">
+              Network
+            </Nav.Link>
+            <Nav.Link as={Link} to="#" onClick={(e) => handlerLogout(e)}>
+              Logout
+            </Nav.Link>
           </Nav>
-          )}
-        </Container>
-      </Navbar>
-    </>
+        )}
+      </Container>
+    </Navbar>
   );
 };
 

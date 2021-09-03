@@ -18,11 +18,11 @@ const InputTag = ({ cert, index, update, remove }) => {
   return (
     <div>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
         <FormControl
           key={`name${index}`}
           type="text"
           value={cert.cert_name}
+          placeholder="자격증 이름"
           onChange={(e) => update({ ...cert, cert_name: e.target.value })}
           isInvalid={!!!cert.cert_name}
         />
@@ -31,25 +31,25 @@ const InputTag = ({ cert, index, update, remove }) => {
       </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
         <FormControl
           key={`detail${index}`}
           type="text"
           value={cert.cert_detail}
+          placeholder="상세내역"
           onChange={(e) => update({ ...cert, cert_detail: e.target.value })}
           isInvalid={!!!cert.cert_detail}
         />
         <Form.Control.Feedback type="invalid">
-          자격증 내역을 입력해주세요.
+          상세내역을 입력해주세요.
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Achieve Date</InputGroup.Text>
         <div style={{ flex: 1 }}>
           <DatePicker
             className="form-control"
             key={`date${index}`}
             selected={cert.cert_achieve_date}
+            dateFormat="yyyy-MM-dd"
             onChange={(date) => update({ ...cert, cert_achieve_date: date })}
           />
         </div>

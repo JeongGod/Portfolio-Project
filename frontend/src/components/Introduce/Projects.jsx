@@ -17,11 +17,11 @@ const InputTag = ({ project, index, update, remove }) => {
   return (
     <div>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Title</InputGroup.Text>
         <FormControl
           key={`name${index}`}
           type="text"
           value={project.project_name}
+          placeholder="프로젝트 이름"
           onChange={(e) => update({ ...project, project_name: e.target.value })}
           isInvalid={!!!project.project_name}
         />
@@ -30,18 +30,18 @@ const InputTag = ({ project, index, update, remove }) => {
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Description</InputGroup.Text>
         <FormControl
           key={`detail${index}`}
           type="text"
           value={project.project_detail}
+          placeholder="상세설명"
           onChange={(e) =>
             update({ ...project, project_detail: e.target.value })
           }
           isInvalid={!!!project.project_detail}
         />
         <Form.Control.Feedback type="invalid">
-          프로젝트 설명을 입력해주세요.
+          상세설명을 입력해주세요.
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
@@ -51,6 +51,7 @@ const InputTag = ({ project, index, update, remove }) => {
             className="form-control"
             key={`start${index}`}
             selected={project.project_start_date}
+            dateFormat="yyyy-MM-dd"
             onChange={(date) =>
               update({ ...project, project_start_date: date })
             }
@@ -59,14 +60,13 @@ const InputTag = ({ project, index, update, remove }) => {
             endDate={project.project_end_date}
           />
         </div>
-      </InputGroup>
-      <InputGroup className="mb-3">
         <InputGroup.Text id="basic-addon1">End Date</InputGroup.Text>
         <div style={{ flex: 1 }}>
       <DatePicker
       className="form-control"
         key={`end${index}`}
         selected={project.project_end_date}
+        dateFormat="yyyy-MM-dd"
         onChange={(date) => update({ ...project, project_end_date: date })}
         selectsEnd
         startDate={project.project_start_date}

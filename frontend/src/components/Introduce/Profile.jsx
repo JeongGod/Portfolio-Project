@@ -71,6 +71,7 @@ const Profile = ({ data, editAuth }) => {
               type="text"
               name="detail"
               value={profile.introduce}
+              placeholder="소개를 입력해주세요."
               onChange={(e) =>
                 setProfile({ ...profile, introduce: e.target.value })
               }
@@ -87,7 +88,7 @@ const Profile = ({ data, editAuth }) => {
       ) : (
         
         <div>
-          <Card.Text>{profile.introduce}</Card.Text>
+          <Card.Text>{profile.introduce ? profile.introduce : "소개를 입력해주세요."}</Card.Text>
           {editAuth && (
             <div className="edit" style={{marginRight:"10px"}}>
               <h3>

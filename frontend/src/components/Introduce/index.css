@@ -1,13 +1,17 @@
 .imgWrapper2 {
-    flex: 1 1 20vh;
-    border-radius: 70%;
+	display: flex;
+    border-radius: 50%;
     overflow: hidden;
     margin: 3em;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    width: 14vw;
+    height: 24vh;
 }
 
 .imgWrapper2 img {
     width: 100%;
-    height: 20vh;
+    height: 100%;
 }
 
 .edit {
@@ -37,6 +41,3 @@
     margin-left: 50px;
     margin-top: 50px;
 };
-
-
-

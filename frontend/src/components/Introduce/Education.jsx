@@ -19,12 +19,12 @@ const InputTag = ({ edu, index, update, remove }) => {
   return (
     <div>
       <InputGroup hasValidation className="mb-3">
-        <InputGroup.Text id="basic-addon1">School</InputGroup.Text>
         <FormControl
           key={`name${index}`}
           type="text"
           name="name"
           value={edu.school_name}
+          placeholder="학교 이름"
           onChange={(e) => update({ ...edu, school_name: e.target.value })}
           isInvalid={!!!edu.school_name}
         />
@@ -33,12 +33,12 @@ const InputTag = ({ edu, index, update, remove }) => {
         </Form.Control.Feedback>
       </InputGroup>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">Major</InputGroup.Text>
         <FormControl
           key={`major${index}`}
           type="text"
           name="major"
           value={edu.major}
+          placeholder="전공"
           onChange={(e) => update({ ...edu, major: e.target.value })}
           isInvalid={!!!edu.major}
         />
